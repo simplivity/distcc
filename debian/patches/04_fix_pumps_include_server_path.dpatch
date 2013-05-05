@@ -1,0 +1,39 @@
+#! /bin/sh -e
+## 04_fix_pumps_include_server_path.dpatch by Carsten Wolff <carsten@wolffcarsten.de>
+## Update to use private module path by Daniel Hartwig <mandyke@gmail.com>
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+--- distcc-3.1.orig/source/Makefile.in
++++ distcc-3.1/source/Makefile.in
+@@ -1049,7 +1049,7 @@
+ 	        --build-base="$(include_server_builddir)" \
+ 	        --build-temp="$(include_server_builddir)" \
+ 	      install 					\
+-	         --prefix="$(prefix)" 			\
++	         --install-lib="$(prefix)/lib/distcc-pump" \
+ 	         --record="$(include_server_builddir)/install.log.pre" \
+ 	         --root="$$DESTDIR"                     \
+ 	    || exit 1; \
+@@ -1061,7 +1061,7 @@
+ 	    cp -f "$(include_server_builddir)/install.log" "$(PYTHON_INSTALL_RECORD)"; \
+ 	  fi; \
+ 	  $(mkinstalldirs) "$(DESTDIR)$(bindir)" && \
+-	  INCLUDE_SERVER=`grep '/include_server.py$$' "$(include_server_builddir)/install.log"` && \
++	  INCLUDE_SERVER="/usr/lib/distcc-pump/include_server/include_server.py" && \
+ 	  sed "s,^include_server='',include_server='$$INCLUDE_SERVER'," \
+ 	    pump > "$(include_server_builddir)/pump" && \
+ 	  $(INSTALL_PROGRAM) "$(include_server_builddir)/pump" "$(DESTDIR)$(bindir)"; \

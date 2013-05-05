@@ -1,0 +1,208 @@
+# Esko Arajärvi <edu@iki.fi>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: distcc\n"
+"Report-Msgid-Bugs-To: distcc@packages.debian.org\n"
+"POT-Creation-Date: 2010-01-05 23:23+0100\n"
+"PO-Revision-Date: 2010-10-22 20:07+0300\n"
+"Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
+"Language-Team: debian-10n-finnish@lists.debian.org\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.6.1\n"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid "Start the distcc daemon on startup?"
+msgstr ""
+"Tulisiko distcc-taustaohjelma käynnistää, kun järjestelmä käynnistetään?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"distcc can be run as a daemon, listening on port 3632 for incoming "
+"connections."
+msgstr ""
+"distcc voidaan ajaa taustaohjelmana, jolloin se kuuntelee porttiin 3632 "
+"tulevia yhteydenottoja."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"You have the option of starting the distcc daemon automatically on the "
+"computer startup. If in doubt, it's advised not to start it automatically on "
+"startup. If you later change your mind, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"distcc-taustaohjelma voidaan käynnistää automaattisesti, kun tietokone "
+"käynnistetään. Jos olet epävarma, tätä ei suositella valittavaksi. Asetusta "
+"voidaan myöhemmin muuttaa ajamalla komento ”dpkg-reconfigure distcc”."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid "Allowed client networks:"
+msgstr "Sallitut asiakasverkot:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"The distcc daemon implements access control based on the IP address of the "
+"client, that is trying to connect. Only the hosts or networks listed here "
+"are allowed to connect."
+msgstr ""
+"distcc-taustaohjelma käyttää yhteyttä ottavan asiakkaan IP-osoitteeseen "
+"perustuvaa lupakontrollia. Vain tässä listatut koneet ja verkot saavat ottaa "
+"yhteyden."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"You can list multiple hosts and/or networks, separated by spaces. Hosts are "
+"represented by their IP address, networks have to be in CIDR notation, f.e. "
+"\"192.168.1.0/24\"."
+msgstr ""
+"Usempia koneita tai verkkoja voidaan listata välilyönnein eroteltuina. "
+"Koneet listataan IP-osoitteen avulla, verkot CIDR-merkinnällä, esimerkiksi "
+"”192.168.1.0/24”."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"To change the list at a later point, you can run: 'dpkg-reconfigure distcc'."
+msgstr ""
+"Listaa voidaan muuttaa myöhemmin ajamalla komento ”dpkg-reconfigure distcc”."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "Listen interfaces:"
+msgstr "Kuunneltavat liitännät:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "The distcc daemon can be bound to a specific network interface."
+msgstr ""
+"distcc-taustaohjelma voidaan asettaa kuuntelemaan tiettyä verkkoliitäntää."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"You probably want to choose the interface of your local network by entering "
+"its IP address. If distccd should listen on all interfaces, just enter "
+"nothing."
+msgstr ""
+"Haluat todennäköisesti valita paikallisen verkon liitännän antamalla sen IP-"
+"osoitteen. Jos distccd:n tulisi kuunnella kaikki liitäntöjä, jätä kenttä "
+"tyhjäksi."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"Be sure to protect distccd from unauthorized access, by being careful in "
+"your choice of the listen interface and allowed networks. distccd should  "
+"never be accessible from untrusted networks. If that is needed, secureshell "
+"should be used instead of the daemon."
+msgstr ""
+"Varmista, että distccd on suojattu luvattomalta käytöltä valitsemalla "
+"huolellisesti kuunneltavat liitännät ja sallitut verkot. distccd:n ei tulisi "
+"koskaan sallia yhteyksiä verkoista, joihin ei luoteta. Jos tällaisia "
+"yhteyksiä tarvitaan, tulisi käyttää secureshelliä, eikä taustaohjelmaa."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"To change the address at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Osoitetta voidaan vaihtaa myöhemmin ajamalla komento ”dpkg-reconfigure "
+"distcc”."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid "Nice level:"
+msgstr "Nice-taso:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid ""
+"You can start the distcc daemon with a nice level, to give it a low priority "
+"compared to other processes. The start script will only accept values "
+"between 0 and 20."
+msgstr ""
+"distcc-taustaohjelma voidaan käynnistää jollain nice-tasolla, jolloin sille "
+"annetaan muita prosesseja pienempi prioriteetti. Käynnistyskomentosarja "
+"hyväksyy vain arvoja väliltä 0-20."
+
+#. Type: string
+#. Description
+#. Type: string
+#. Description
+#. Type: boolean
+#. Description
+#: ../distcc.templates:4001 ../distcc.templates:5001 ../distcc.templates:6001
+msgid ""
+"To change this value at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Tätä arvoa voidaan myöhemmin muuttaa ajamalla komento ”dpkg-reconfigure "
+"distcc”."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid "Maximum number of concurrent jobs:"
+msgstr "Yhtäaikaisten töiden enimmäismäärä:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid ""
+"You can tell the distcc daemon to accept a maximum number of jobs at a time. "
+"This can be useful on systems that should stay interactive while they serve "
+"as a distcc server. Usually, you will want to set this to a value matching "
+"or doubling the number of cores on this system."
+msgstr ""
+"Voit määrittää distcc-taustaohjelman kerrallaan hyväksymien töiden "
+"enimmäismäärän. Tästä voi olla apua järjestelmissä, joita käytetään "
+"interaktiivisesti samaan aikaan, kun ne toimivat distcc-palvelimena. Yleensä "
+"sopiva määrä on järjestelmän ytimien lukumäärä tai kaksinkertainen."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "Enable Zeroconf support?"
+msgstr "Otetaanko Zeroconf-tuki käyttöön?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "distcc has Zeroconf support."
+msgstr "distcc tukee Zeroconfia."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid ""
+"If you enable it here, please read /usr/share/doc/distcc/README.Debian to "
+"learn how clients must be configured to make use of it. Also note, that you "
+"need to install the dbus package, if you're going to use Zeroconf."
+msgstr ""
+"Jos otat sen käyttöön, lue tiedostosta /usr/share/doc/distcc/README.Debian "
+"mitä asetuksia asiakasohjelmiin tulee tehdä sen käyttämiseksi. Paketin dbus "
+"tulee olla asennettuna, jos Zeroconfia halutaan käyttää."

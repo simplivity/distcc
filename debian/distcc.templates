@@ -1,0 +1,75 @@
+Template: distcc/daemon
+Type: boolean
+Default: false
+_Description: Start the distcc daemon on startup?
+ distcc can be run as a daemon, listening on port 3632 for incoming
+ connections.
+ .
+ You have the option of starting the distcc daemon automatically on the
+ computer startup. If in doubt, it's advised not to start it automatically
+ on startup. If you later change your mind, you can run: 'dpkg-reconfigure
+ distcc'.
+
+Template: distcc/daemon-allow
+Type: string
+Default: 127.0.0.1
+_Description: Allowed client networks:
+ The distcc daemon implements access control based on the IP address of the
+ client, that is trying to connect. Only the hosts or networks listed
+ here are allowed to connect.
+ .
+ You can list multiple hosts and/or networks, separated by spaces. Hosts are
+ represented by their IP address, networks have to be in CIDR notation,
+ f.e. "192.168.1.0/24".
+ .
+ To change the list at a later point, you can run: 'dpkg-reconfigure distcc'.
+
+Template: distcc/daemon-listen
+Type: string
+Default: 127.0.0.1
+_Description: Listen interfaces:
+ The distcc daemon can be bound to a specific network interface.
+ .
+ You probably want to choose the interface of your local network by entering
+ its IP address. If distccd should listen on all interfaces, just enter
+ nothing.
+ .
+ Be sure to protect distccd from unauthorized access, by being careful in
+ your choice of the listen interface and allowed networks. distccd should 
+ never be accessible from untrusted networks. If that is needed, secureshell
+ should be used instead of the daemon.
+ .
+ To change the address at a later point, you can run: 'dpkg-reconfigure distcc'.
+
+Template: distcc/daemon-nice
+Type: string
+Default: 10
+_Description: Nice level:
+ You can start the distcc daemon with a nice level, to give it a low priority
+ compared to other processes. The start script will only accept values between
+ 0 and 20.
+ .
+ To change this value at a later point, you can run: 'dpkg-reconfigure distcc'.
+
+Template: distcc/daemon-jobs
+Type: string
+Default:
+_Description: Maximum number of concurrent jobs:
+ You can tell the distcc daemon to accept a maximum number of jobs at a time.
+ This can be useful on systems that should stay interactive while they serve
+ as a distcc server. Usually, you will want to set this to a value matching
+ or doubling the number of cores on this system.
+ .
+ To change this value at a later point, you can run: 'dpkg-reconfigure distcc'.
+
+Template: distcc/daemon-zeroconf
+Type: boolean
+Default: false
+_Description: Enable Zeroconf support?
+ distcc has Zeroconf support.
+ .
+ If you enable it here, please read /usr/share/doc/distcc/README.Debian to
+ learn how clients must be configured to make use of it. Also note, that
+ you need to install the dbus package, if you're going to use Zeroconf.
+ .
+ To change this value at a later point, you can run: 'dpkg-reconfigure distcc'.

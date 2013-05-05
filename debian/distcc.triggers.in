@@ -1,0 +1,2 @@
+interest /usr/lib/gcc
+interest /usr/lib/%DEB_HOST_MULTIARCH%/gcc

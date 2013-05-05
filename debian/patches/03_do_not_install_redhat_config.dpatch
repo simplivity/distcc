@@ -1,0 +1,29 @@
+#! /bin/sh -e
+## 03_do_not_install_redhat_config.dpatch by Carsten Wolff <carsten@wolffcarsten.de>
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+--- distcc-3.1.orig/source/Makefile.in
++++ distcc-3.1/source/Makefile.in
+@@ -1010,7 +1010,7 @@
+ # tricky features so mkinstalldirs and cp will do
+ 
+ install: showpaths install-doc install-man install-programs \
+-	install-include-server install-example @INSTALL_GNOME@ install-conf
++	install-include-server install-example @INSTALL_GNOME@
+ 
+ install-programs: $(bin_PROGRAMS)
+ 	$(mkinstalldirs) "$(DESTDIR)$(bindir)"

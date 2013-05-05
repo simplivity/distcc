@@ -1,0 +1,208 @@
+# Italian translation of distcc.
+# COPYRIGHT (C) 2009 THE DISTCC'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the distcc package.
+# Luca Monducci <luca.mo@tiscali.it>, 2009, 2010.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: distcc 3.1 italian debconf templates\n"
+"Report-Msgid-Bugs-To: distcc@packages.debian.org\n"
+"POT-Creation-Date: 2010-01-05 23:23+0100\n"
+"PO-Revision-Date: 2010-08-20 16:36+0200\n"
+"Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
+"Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid "Start the distcc daemon on startup?"
+msgstr "Avviare il demone distcc all'avvio del sistema?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"distcc can be run as a daemon, listening on port 3632 for incoming "
+"connections."
+msgstr ""
+"distcc può essere eseguito come demone in attesa di connessioni in entrata "
+"sulla porta 3632."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"You have the option of starting the distcc daemon automatically on the "
+"computer startup. If in doubt, it's advised not to start it automatically on "
+"startup. If you later change your mind, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"È possibile far partire automaticamente il demone distcc all'avvio del "
+"sistema. In caso di dubbi, si suggerisce di non far partire il demone "
+"all'avvio. Per cambiare questa scelta in seguito, eseguire: \"dpkg-"
+"reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid "Allowed client networks:"
+msgstr "Reti client ammesse:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"The distcc daemon implements access control based on the IP address of the "
+"client, that is trying to connect. Only the hosts or networks listed here "
+"are allowed to connect."
+msgstr ""
+"Il demone distcc ha un sistema di controllo degli accessi basato "
+"sull'indirizzo IP del client che prova a connettersi. Solo gli host o le "
+"reti elencati possono connettersi."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"You can list multiple hosts and/or networks, separated by spaces. Hosts are "
+"represented by their IP address, networks have to be in CIDR notation, f.e. "
+"\"192.168.1.0/24\"."
+msgstr ""
+"È possibile elencare più host o reti usando degli spazi come separatore. Gli "
+"host devono essere inseriti con il loro indirizzo IP, le reti usando la "
+"notazione CIDR, per esempio \"192.168.1.0/24\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"To change the list at a later point, you can run: 'dpkg-reconfigure distcc'."
+msgstr ""
+"Per cambiare questo elenco in seguito, eseguire: \"dpkg-reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "Listen interfaces:"
+msgstr "Interfacce di ascolto:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "The distcc daemon can be bound to a specific network interface."
+msgstr ""
+"Il demone distcc può essere collegato a una specifica interfaccia di rete."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"You probably want to choose the interface of your local network by entering "
+"its IP address. If distccd should listen on all interfaces, just enter "
+"nothing."
+msgstr ""
+"Per scegliere su quale interfaccia della rete locale inserire l'indirizzo "
+"IP. Se distccd deve stare in ascolto su tutte le interfacce, non inserire "
+"nulla."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"Be sure to protect distccd from unauthorized access, by being careful in "
+"your choice of the listen interface and allowed networks. distccd should  "
+"never be accessible from untrusted networks. If that is needed, secureshell "
+"should be used instead of the daemon."
+msgstr ""
+"Per proteggere distccd da accessi non autorizzati, è necessario essere "
+"prudenti nella scelta delle interfacce in ascolto e delle reti autorizzate. "
+"distccd non dovrebbe essere mai accessibile da reti non fidate. Se "
+"necessario, usare secureshell al posto del demone."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"To change the address at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Per cambiare l'indirizzo in seguito, eseguire: \"dpkg-reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid "Nice level:"
+msgstr "Livello di nice:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid ""
+"You can start the distcc daemon with a nice level, to give it a low priority "
+"compared to other processes. The start script will only accept values "
+"between 0 and 20."
+msgstr ""
+"È possibile avviare il demone distcc con un certo livello di nice, per "
+"abbassare la sua priorità nei confronti degli altri processi. Lo script "
+"d'avvio accetta solo i valori tra 0 e 20."
+
+#. Type: string
+#. Description
+#. Type: string
+#. Description
+#. Type: boolean
+#. Description
+#: ../distcc.templates:4001 ../distcc.templates:5001 ../distcc.templates:6001
+msgid ""
+"To change this value at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Per cambiare questo valore in seguito, eseguire \"dpkg-reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid "Maximum number of concurrent jobs:"
+msgstr "Numero massimo di lavori concorrenti:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid ""
+"You can tell the distcc daemon to accept a maximum number of jobs at a time. "
+"This can be useful on systems that should stay interactive while they serve "
+"as a distcc server. Usually, you will want to set this to a value matching "
+"or doubling the number of cores on this system."
+msgstr ""
+"È possibile indicare al demone distcc di accettare un numero massimo di "
+"lavori alla volta. Questo può essere utile sui sistemi che devono rimanere "
+"interattivi mentre fanno anche da server distcc. Di solito questo valore "
+"viene impostato uguale oppure il doppio del numero di core sul sistema."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "Enable Zeroconf support?"
+msgstr "Attivare il supporto Zeroconf?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "distcc has Zeroconf support."
+msgstr "distcc ha il supporto Zeroconf."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid ""
+"If you enable it here, please read /usr/share/doc/distcc/README.Debian to "
+"learn how clients must be configured to make use of it. Also note, that you "
+"need to install the dbus package, if you're going to use Zeroconf."
+msgstr ""
+"Se si attiva il supporto, leggere in /usr/share/doc/distcc/README.Debian le "
+"informazioni su come si devono configurare i client per farglielo usare. "
+"Notare che è necessario installare il pacchetto dbus per utilizzare Zeroconf."

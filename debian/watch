@@ -1,0 +1,4 @@
+version=3
+opts="uversionmangle=s/(\d)((rc|prerelease)\d*)$/$1~$2/" \
+  http://code.google.com/p/distcc/downloads/list?can=1 \
+  .*/distcc-(\d[\d.]*(?:(?:rc|prerelease)\d*)?)\.(?:zip|tgz|tbz|txz|(?:tar\.(?:gz|bz2|xz)))

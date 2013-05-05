@@ -1,0 +1,77 @@
+Description: Install distccmon-gnome desktop, icon files to public dirs
+ These files are currently put in /usr/share/distcc and as a result
+ the program is not integrated in to the applications menu.
+ .
+ This patch puts them in /usr/share/applications and /usr/share/pixmaps
+ respectively.
+ .
+ Ideally those paths should be configurable at build time.
+Author: Daniel Hartwig <mandyke@gmail.com>
+Bug: http://code.google.com/p/distcc/issues/detail?id=111
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/512288
+
+--- a/source/Makefile.in
++++ b/source/Makefile.in
+@@ -113,7 +113,8 @@
+ 	$(conf_files)                                           \
+ 	$(default_files)                                        \
+ 	$(dist_extra)						\
+-	$(gnome_data)
++	$(desktop_files)					\
++	$(icon_files)
+ 
+ dist_dirs = m4 include_server/test_data
+ 
+@@ -373,8 +374,11 @@
+ 	   man/pump_1.html man/include_server_1.html man/distccmon-gnome_1.html
+ MEN = $(man1_MEN)
+ 
+-gnome_data = gnome/distccmon-gnome-icon.png	\
+-	gnome/distccmon-gnome.desktop
++desktopdir = $(datadir)/applications
++desktop_files = gnome/distccmon-gnome.desktop
++
++icondir = $(datadir)/pixmaps
++icon_files = gnome/distccmon-gnome-icon.png
+ 
+ popt_OBJS=popt/findme.o  popt/popt.o  popt/poptconfig.o \
+ 	popt/popthelp.o popt/poptparse.o
+@@ -1085,10 +1089,14 @@
+ 	$(INSTALL_DATA) "$(srcdir)/$$p" "$(DESTDIR)$(docdir)/example" || exit 1; \
+ 	done
+ 
+-install-gnome-data: $(gnome_data)
+-	$(mkinstalldirs) "$(DESTDIR)$(pkgdatadir)"
+-	for p in $(gnome_data); do				\
+-	$(INSTALL_DATA) "$$p" "$(DESTDIR)$(pkgdatadir)" || exit 1; \
++install-gnome-data: $(desktop_files) $(icon_files)
++	$(mkinstalldirs) "$(DESTDIR)$(desktopdir)"
++	$(mkinstalldirs) "$(DESTDIR)$(icondir)"
++	for p in $(desktop_files); do				\
++	$(INSTALL_DATA) "$$p" "$(DESTDIR)$(desktopdir)" || exit 1; \
++	done
++	for p in $(icon_files); do				\
++	$(INSTALL_DATA) "$$p" "$(DESTDIR)$(icondir)" || exit 1; \
+ 	done
+ 
+ install-conf: $(conf_files) $(default_files)
+@@ -1168,11 +1176,16 @@
+ 	-rmdir "$(DESTDIR)$(docdir)/example"
+ 
+ uninstall-gnome-data:
+-	for p in $(gnome_data); do				\
+-	  file="$(DESTDIR)$(pkgdir)/`basename $$p`";            \
++	for p in $(icon_files); do                              \
++	  file="$(DESTDIR)$(icondir)/`basename $$p`";           \
++	  if [ -e "$$file" ]; then rm -fv "$$file"; fi          \
++	done
++	for p in $(desktop_files); do                           \
++	  file="$(DESTDIR)$(desktopdir)/`basename $$p`";        \
+ 	  if [ -e "$$file" ]; then rm -fv "$$file"; fi          \
+ 	done
+-	-[ `basename $(pkgdir)` = $(PACKAGE) ] && rmdir "$(DESTDIR)$(pkgdir)"
++	-[ `basename $(icondir)` = $(PACKAGE) ] && rmdir "$(DESTDIR)$(icondir)"
++	-[ `basename $(desktopdir)` = $(PACKAGE) ] && rmdir "$(DESTDIR)$(desktopdir)"
+ 
+ uninstall-conf:
+ 	for p in $(conf_files); do                              \

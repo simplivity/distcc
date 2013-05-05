@@ -1,0 +1,53 @@
+Source: distcc
+Section: devel
+Priority: optional
+Maintainer: Daniel Hartwig <mandyke@gmail.com>
+Build-Depends: debhelper (>= 9), libpopt-dev, linuxdoc-tools, autoconf, libgtk2.0-dev, libgnomeui-dev, po-debconf, python-dev, python-support (>= 0.90), autotools-dev
+Standards-Version: 3.9.3
+Homepage: http://code.google.com/p/distcc/
+
+Package: distcc
+Architecture: any
+Depends: ${shlibs:Depends}, adduser (>= 3.52), ${misc:Depends}, netbase (>= 4.09), lsb-base (>= 3.2-13)
+Suggests: distccmon-gnome, ccache, distcc-pump, dbus, dmucs
+Homepage: http://distcc.org/
+Description: simple distributed compiler client and server
+ distcc is a program to distribute compilation of C or C++ code across
+ several machines on a network. distcc should always generate the same
+ results as a local compile, is simple to install and use, and is often
+ significantly faster than a local compile.  distcc does not require all
+ machines to share a filesystem, have synchronized clocks, or to have
+ the same libraries or header files installed.
+
+Package: distccmon-gnome
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: distcc
+Homepage: http://distcc.org/
+Description: GTK+ monitor for distcc a distributed client and server
+ distcc is a program to distribute compilation of C or C++ code across
+ several machines on a network. distcc should always generate the same
+ results as a local compile, is simple to install and use, and is often
+ significantly faster than a local compile.  distcc does not require all
+ machines to share a filesystem, have synchronized clocks, or to have
+ the same libraries or header files installed.
+ .
+ this is the GTK+ monitor program.
+
+Package: distcc-pump
+Architecture: any
+Depends: ${shlibs:Depends}, ${python:Depends}, ${misc:Depends}, distcc
+Homepage: http://distcc.org/
+Description: pump mode for distcc a distributed compiler client and server
+ distcc is a program to distribute compilation of C or C++ code across
+ several machines on a network. distcc should always generate the same
+ results as a local compile, is simple to install and use, and is often
+ significantly faster than a local compile.  distcc does not require all
+ machines to share a filesystem, have synchronized clocks, or to have
+ the same libraries or header files installed.
+ .
+ this package contains the necessary additions for distcc's "pump" mode,
+ which improves on plain distcc by distributing not only compilation but
+ also preprocessing to distcc servers.
+ If you have more than 10 CPUs involved in your distcc setup, you should
+ consider using this package on your distcc client machine.

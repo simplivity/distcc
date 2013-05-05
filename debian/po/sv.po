@@ -1,0 +1,216 @@
+# Translation of distcc debconf template to Swedish
+# Copyright (C) 2010 Martin Bagge <brother@bsnet.se>
+# This file is distributed under the same license as the distcc package.
+#
+# Martin Ågren <martin.agren@gmail.com>, 2008.
+# Martin Bagge <brother@bsnet.se>, 2009, 2010
+msgid ""
+msgstr ""
+"Project-Id-Version: distcc_2.18.3-7.1_sv\n"
+"Report-Msgid-Bugs-To: distcc@packages.debian.org\n"
+"POT-Creation-Date: 2010-01-05 23:23+0100\n"
+"PO-Revision-Date: 2010-01-11 21:45+0100\n"
+"Last-Translator: Martin Bagge <brother@bsnet.se>\n"
+"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: Sweden\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid "Start the distcc daemon on startup?"
+msgstr "Starta distcc-demonen vid systemet uppstart?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"distcc can be run as a daemon, listening on port 3632 for incoming "
+"connections."
+msgstr ""
+"distcc kan köras som en demon och lyssnar på port 3632 efter inkommande "
+"anslutningar."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"You have the option of starting the distcc daemon automatically on the "
+"computer startup. If in doubt, it's advised not to start it automatically on "
+"startup. If you later change your mind, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Du har möjligheten att starta distcc-demonen automatiskt när datorn startar "
+"upp. Om du är osäker föreslås att du inte startar den automatiskt vid "
+"uppstart. Om du ändrar dig senare kan du köra: \"dpkg-reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid "Allowed client networks:"
+msgstr "Tillåtna klientnätverk:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"The distcc daemon implements access control based on the IP address of the "
+"client, that is trying to connect. Only the hosts or networks listed here "
+"are allowed to connect."
+msgstr ""
+"distcc-demonen implementerar tillgångskontroll baserat på IP-addressen hos "
+"klienten som försöker ansluta. Bara de värdar eller nätverk som listas här "
+"tillåts ansluta."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"You can list multiple hosts and/or networks, separated by spaces. Hosts are "
+"represented by their IP address, networks have to be in CIDR notation, f.e. "
+"\"192.168.1.0/24\"."
+msgstr ""
+"Du kan lista ett flertal värdar och/eller nätverk, separerade med "
+"mellanslag. Värdar representeras av deras IP-address, nätverk måste anges i "
+"CIDR-notation, till exempel \"192.168.1.0/24\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"To change the list at a later point, you can run: 'dpkg-reconfigure distcc'."
+msgstr ""
+"Om du vill ändra listan vid en senare tidpunkt kan du köra: \"dpkg-"
+"reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "Listen interfaces:"
+msgstr "Gränssnitt att lyssna på:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "The distcc daemon can be bound to a specific network interface."
+msgstr "distcc-demonen kan knytas till ett särskilt nätverksgränssnitt."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"You probably want to choose the interface of your local network by entering "
+"its IP address. If distccd should listen on all interfaces, just enter "
+"nothing."
+msgstr ""
+"Du vill troligen använda ditt lokala nätverks gränssnitt genom att ange dess "
+"IP-adress. Om distccd ska lyssna på alla gränssnitt, skriv inte in någonting."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"Be sure to protect distccd from unauthorized access, by being careful in "
+"your choice of the listen interface and allowed networks. distccd should  "
+"never be accessible from untrusted networks. If that is needed, secureshell "
+"should be used instead of the daemon."
+msgstr ""
+"Se till att skydda distccd från obehörig åtkomst genom att vara noggrann i "
+"valet av gränssnitt att lyssna på och tillåtna nätverk. distccd ska aldrig "
+"kunna nås från opålitliga nätverk. Om det behövs, ska secureshell användas "
+"istället för demonen."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"To change the address at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Om du vill ändra adressen vid en senare tidpunkt kan du köra: \"dpkg-"
+"reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid "Nice level:"
+msgstr "Prioritetsnivå för \"nice\":"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid ""
+"You can start the distcc daemon with a nice level, to give it a low priority "
+"compared to other processes. The start script will only accept values "
+"between 0 and 20."
+msgstr ""
+"Du kan starta distcc-demonen med en prioritetsnivå för att ge det en låg "
+"nivå jämfört med andra processer. Startskriptet kommer endast godta värden "
+"mellan 0 och 20."
+
+#. Type: string
+#. Description
+#. Type: string
+#. Description
+#. Type: boolean
+#. Description
+#: ../distcc.templates:4001 ../distcc.templates:5001 ../distcc.templates:6001
+msgid ""
+"To change this value at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Om du vill ändra detta värde vid en senare tidpunkt kan du köra: \"dpkg-"
+"reconfigure distcc\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid "Maximum number of concurrent jobs:"
+msgstr "Maximalt antal samtidiga uppdrag:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid ""
+"You can tell the distcc daemon to accept a maximum number of jobs at a time. "
+"This can be useful on systems that should stay interactive while they serve "
+"as a distcc server. Usually, you will want to set this to a value matching "
+"or doubling the number of cores on this system."
+msgstr ""
+"Du kan ange hur maximalt antal samtidiga uppdrag som distcc-demonen ska "
+"acceptera att köra. Detta kan vara användbart på system som ska användas "
+"till annat samtidigt som de agerar distcc-server. Vanligen sätter du detta "
+"till ett värde som motsvarar det dubbla antalet processorkärnor."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "Enable Zeroconf support?"
+msgstr "Aktivera Zeroconf-stöd?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "distcc has Zeroconf support."
+msgstr "distcc har stöd för Zeroconf"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid ""
+"If you enable it here, please read /usr/share/doc/distcc/README.Debian to "
+"learn how clients must be configured to make use of it. Also note, that you "
+"need to install the dbus package, if you're going to use Zeroconf."
+msgstr ""
+"Om du aktiverar det här, läs /usr/share/doc/distcc/README.Debian för "
+"information om hur klienterna måste konfigureras för att använda det. Kom "
+"även ihåg att paketet dbus måste installeras om du vill använda Zeroconf."
+
+#~ msgid "distcc for Debian has been patched with Zeroconf support."
+#~ msgstr "distcc för Debian har utökats med stöd för Zeroconf."

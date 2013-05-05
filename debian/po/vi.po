@@ -1,0 +1,208 @@
+# Vietnamese translation for distcc.
+# Copyright © 2010 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2005-2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: distcc 3.1-3.1\n"
+"Report-Msgid-Bugs-To: distcc@packages.debian.org\n"
+"POT-Creation-Date: 2010-01-05 23:23+0100\n"
+"PO-Revision-Date: 2010-03-12 18:26+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: LocFactoryEditor 1.8\n"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid "Start the distcc daemon on startup?"
+msgstr "Khởi chạy trình nền distcc khi khởi động máy không?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"distcc can be run as a daemon, listening on port 3632 for incoming "
+"connections."
+msgstr ""
+"Có thể chạy trình distcc như là một trình nền, dùng cổng 3622 để lắng nghe "
+"kết nối gửi đến."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"You have the option of starting the distcc daemon automatically on the "
+"computer startup. If in doubt, it's advised not to start it automatically on "
+"startup. If you later change your mind, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Tùy chọn bạn có thể tự động khởi chạy trình nền distcc khi khởi động máy "
+"này. Chưa chắc thì đề nghị bạn không là đó. Thay đổi ý kiến về sau thì bạn "
+"cũng có thể chạy lệnh cấu hình lại « dpkg-reconfigure distcc »."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid "Allowed client networks:"
+msgstr "Mạng khách được phép:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"The distcc daemon implements access control based on the IP address of the "
+"client, that is trying to connect. Only the hosts or networks listed here "
+"are allowed to connect."
+msgstr ""
+"Trình nền distcc thực hiện điều khiển truy cập dựa vào địa chỉ IP của trình "
+"khách đang thử kết nối. Chỉ những máy được liệt kê ở đây có quyền kết nối."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"You can list multiple hosts and/or networks, separated by spaces. Hosts are "
+"represented by their IP address, networks have to be in CIDR notation, f.e. "
+"\"192.168.1.0/24\"."
+msgstr ""
+"Bạn có thể liệt kê nhiều máy và/hay mạng, định giới bằng dấu cách. Hãy nhập "
+"máy bằng địa chỉ IP, và nhập mạng bằng cách CIDR, v.d. « 192.168.1.0/24 "
+"» (tiêu biểu một phạm vi địa chỉ IP)."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"To change the list at a later point, you can run: 'dpkg-reconfigure distcc'."
+msgstr ""
+"Để sửa đổi danh sách này vào một lúc sau, bạn có thể chạy lệnh cấu hình lại "
+"« dpkg-reconfigure distcc »."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "Listen interfaces:"
+msgstr "Giao diện lắng nghe:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "The distcc daemon can be bound to a specific network interface."
+msgstr ""
+"Trình nền distcc có thể được đóng kết với một giao diện mạng dứt khoát."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"You probably want to choose the interface of your local network by entering "
+"its IP address. If distccd should listen on all interfaces, just enter "
+"nothing."
+msgstr ""
+"Rất có thể là bạn muốn chọn giao diện của mạng cục bộ, bằng cách nhập địa "
+"chỉ IP của nó. Nếu distccd nên lắng nghe trên mọi giao diện, không cần nhập "
+"gì."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"Be sure to protect distccd from unauthorized access, by being careful in "
+"your choice of the listen interface and allowed networks. distccd should  "
+"never be accessible from untrusted networks. If that is needed, secureshell "
+"should be used instead of the daemon."
+msgstr ""
+"Bạn cần phải bảo vệ distccd khỏi truy cập không được phép, bằng cách chọn "
+"cẩn thận giao diện lắng nghe và các mạng được chấp nhận."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"To change the address at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Để sửa đổi địa chỉ này vào một lúc sau, bạn có thể chạy lệnh cấu hình lại « "
+"dpkg-reconfigure distcc »."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid "Nice level:"
+msgstr "Ưu tiên:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid ""
+"You can start the distcc daemon with a nice level, to give it a low priority "
+"compared to other processes. The start script will only accept values "
+"between 0 and 20."
+msgstr ""
+"Bạn cũng có thể khởi chạy trình nền distcc với một mức ưu tiên (nice) về tài "
+"nguyên mà gán nó có mức ưu tiên thấp hơn các tiến trình khác. Văn lệnh khởi "
+"chạy sẽ chỉ chấp nhận giá trị nằm giữa 0 và 20."
+
+#. Type: string
+#. Description
+#. Type: string
+#. Description
+#. Type: boolean
+#. Description
+#: ../distcc.templates:4001 ../distcc.templates:5001 ../distcc.templates:6001
+msgid ""
+"To change this value at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Để sửa đổi giá trị này vào một lúc sau, bạn có thể chạy lệnh cấu hình lại « "
+"dpkg-reconfigure distcc »."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid "Maximum number of concurrent jobs:"
+msgstr "Số tối đa các công việc chạy đồng thời:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid ""
+"You can tell the distcc daemon to accept a maximum number of jobs at a time. "
+"This can be useful on systems that should stay interactive while they serve "
+"as a distcc server. Usually, you will want to set this to a value matching "
+"or doubling the number of cores on this system."
+msgstr ""
+"Bạn có dịp đặt trình nền chấp nhận mỗi lần một số tối đa các công việc. "
+"Thiết lập này có thể hữu ích trên hệ thống nên cứ tương tác trong khi làm "
+"việc như là một máy phục vụ distcc. Bình thường có nên đặt một giá trị trùng "
+"với hay nhân gấp đôi số các lõi trên hệ thống."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "Enable Zeroconf support?"
+msgstr "Bật hỗ trợ Zeroconf không?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "distcc has Zeroconf support."
+msgstr "distcc có hỗ trợ Zeroconf."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid ""
+"If you enable it here, please read /usr/share/doc/distcc/README.Debian to "
+"learn how clients must be configured to make use of it. Also note, that you "
+"need to install the dbus package, if you're going to use Zeroconf."
+msgstr ""
+"Bật tùy chọn này thì cũng cần đọc tài liệu Đọc Đi « /usr/share/doc/distcc/"
+"README.Debian » để học biết cách cấu hình ứng dụng khách để sử dụng nó. Cũng "
+"cần phải cài đặt gói « dbus » để sử dụng Zeroconf."

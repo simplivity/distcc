@@ -1,0 +1,47 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
+
+DEB_HOST_MULTIARCH := $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+%:
+	dh $@ --with autotools_dev,python-support --parallel \
+	  --sourcedirectory=source
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+	  --enable-rfc2553 --disable-Werror --with-gnome \
+	  PYTHON=$(shell which `pyversions -d`)
+
+	sed s/%DEB_HOST_MULTIARCH%/$(DEB_HOST_MULTIARCH)/ \
+	  debian/distcc.triggers.in >debian/distcc.triggers
+	sed s/%DEB_HOST_MULTIARCH%/$(DEB_HOST_MULTIARCH)/ \
+	  debian/update-distcc-symlinks.in >debian/update-distcc-symlinks
+	chmod +x debian/update-distcc-symlinks
+
+override_dh_auto_test:
+	# The test suite is disabled because it fails due to changes in
+        # compiler output.  This is fixed upstream in 3.2rc1.
+        # See: http://code.google.com/p/distcc/issues/detail?id=81
+
+override_dh_auto_install:
+	dh_auto_install
+
+	# 09_rename-pump.patch: finish off by renaming installed pump files
+	mv debian/tmp/usr/bin/pump \
+	   debian/tmp/usr/bin/distcc-pump
+	mv debian/tmp/usr/share/man/man1/pump.1 \
+	   debian/tmp/usr/share/man/man1/distcc-pump.1
+
+override_dh_auto_clean:
+	rm -f debian/distcc.triggers debian/update-distcc-symlinks
+	dh_auto_clean

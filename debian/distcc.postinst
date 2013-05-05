@@ -1,0 +1,129 @@
+#!/bin/sh
+# postinst script for distcc
+
+set -e
+
+conffile="/etc/default/distcc"
+DISTCC_USER=distccd
+DISTCC_LOGFILE=/var/log/distccd.log
+
+update_config_file()
+{
+	db_field=$1
+	config_field=$2
+  
+	RET=false
+  	db_get $db_field
+	if grep -q "^[ ]*$config_field" $conffile ; then 
+		# keep any admin changes, while replacing the variable content
+		sed "s#^[ ]*$config_field=\".*\"#$config_field=\"$RET\"#" < $conffile > $conffile.new && 
+   		mv $conffile.new $conffile
+  	else
+    		echo "$config_field=\"$RET\"" >> $conffile
+	fi
+}
+
+update_symlinks()
+{
+  echo "Updating symlinks in /usr/lib/distcc ..." >&2
+  update-distcc-symlinks
+}
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+case "$1" in
+        configure)
+		if [ ! -f $conffile ] ; then
+		  cat << EOF > $conffile
+# Defaults for distcc initscript
+# sourced by /etc/init.d/distcc
+
+#
+# should distcc be started on boot?
+#
+# STARTDISTCC="true"
+
+STARTDISTCC="false"
+
+#
+# Which networks/hosts should be allowed to connect to the daemon?
+# You can list multiple hosts/networks separated by spaces.
+# Networks have to be in CIDR notation, f.e. 192.168.1.0/24
+# Hosts are represented by a single IP Adress
+#
+# ALLOWEDNETS="127.0.0.1"
+
+ALLOWEDNETS="127.0.0.1"
+
+#
+# Which interface should distccd listen on?
+# You can specify a single interface, identified by it's IP address, here.
+#
+# LISTENER="127.0.0.1"
+
+LISTENER="127.0.0.1"
+
+#
+# You can specify a (positive) nice level for the distcc process here
+#
+# NICE="10"
+
+NICE="10"
+
+#
+# You can specify a maximum number of jobs, the server will accept concurrently
+#
+# JOBS=""
+
+JOBS=""
+
+#
+# Enable Zeroconf support?
+# If enabled, distccd will register via mDNS/DNS-SD.
+# It can then automatically be found by zeroconf enabled distcc clients
+# without the need of a manually configured host list.
+#
+# ZEROCONF="true"
+
+ZEROCONF="true"
+EOF
+		fi
+	  
+		update_config_file distcc/daemon STARTDISTCC
+		update_config_file distcc/daemon-allow ALLOWEDNETS
+		update_config_file distcc/daemon-listen LISTENER
+		update_config_file distcc/daemon-nice NICE
+		update_config_file distcc/daemon-jobs JOBS
+		update_config_file distcc/daemon-zeroconf ZEROCONF
+
+		# create distcc user
+		adduser --quiet --system \
+		  --home / --no-create-home $DISTCC_USER
+
+		if [ ! -s $DISTCC_LOGFILE ]; then
+			touch $DISTCC_LOGFILE
+			chown ${DISTCC_USER}:adm $DISTCC_LOGFILE
+			chmod 640 $DISTCC_LOGFILE
+		fi
+
+		db_stop
+
+		update_symlinks
+		;;
+	triggered)
+		update_symlinks
+		exit 0
+		;;
+        abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+                                                                                      
+        *)
+                echo "postinst called with unknown argument \`$1'" >&2
+                exit 1
+                ;;
+esac
+                                                                                      
+#DEBHELPER#
+ 
+exit 0

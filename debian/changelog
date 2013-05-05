@@ -1,0 +1,648 @@
+distcc (3.1-6) unstable; urgency=low
+
+  [ Daniel Hartwig ]
+  * distcc suggests dmucs
+  * debian/distcc.init:
+    - rename from distcc.init.d
+    - also use "--oknodo" when restarting the daemon
+    - add missing LSB description, tweak short-description
+  * debian/distcc.lintian-overrides:
+    - override package-contains-empty-directory usr/lib/distcc; this
+      directory is populated with compiler symlinks during postinst
+  * debian/distcc.postinst:
+    - simplify call to adduser
+    - minor cleanup and avoid writing to stdout
+  * debian/distcc.postrm:
+    - do not remove the distcc user (LP: #482571)
+  * debian/patches:
+    - 11_lsdistcc-man.patch: fix typo to not remove lsdistcc.1 on clean
+  * debian/watch:
+    - update, include release candidates
+
+  [ Daniel Schaal ]
+  * debian/distcc.postinst:
+    - avoid needless restart of distccd after gcc upgrades
+      (Closes: #677264)
+
+ -- Daniel Hartwig <mandyke@gmail.com>  Thu, 05 May 2013 16:42:12 +0800
+
+distcc (3.1-5) unstable; urgency=low
+
+  * new maintainer (Closes: #664497)
+  * update Standards-Version to 3.9.3:
+    - debian/distcc.init.d: start action exits successfully if daemon
+      is already running [9.3.2]; postinst will succeed on upgrades in
+      this case also (Closes: #620773, LP: #822887)
+  * switch to dpkg-source 3.0 (quilt) format
+  * remove Build-Depends: dpatch
+  * add Build-Depends: autotools-dev
+  * debian/rules:
+    - use debhelper compat level 9
+    - reduce to "dh $@" style
+    - fixes FTBFS caused by previous build-arch target (Closes: #666383)
+    - enabled bindnow hardening (no PIE yet, it causes build failure)
+  * debian/control:
+    - added Homepage field
+    - distcc: description starts lowercase
+  * debian/distcc.config:
+    - renamed from debian/config
+    - use "set -e"
+    - include missing #DEBHELPER# token
+  * debian/distcc.init.d:
+    - added stop levels 0, 6
+    - unset TMPDIR before starting the daemon to avoid problems with
+      root's value for this being unwritable by the distccd user; to
+      provide distccd with a sensible TMPDIR put it in /etc/default/distcc
+      (Closes: #514556)
+  * debian/distcc.postinst:
+    - use "set -e" instead of "#!/bin/sh -e"
+    - drop extra calls to "sed ... /etc/default/distcc" for every field
+      that only removed whitespace which would be removed anyway when
+      updating the fields
+    - always create distccd user if it does not exist (Closes: #548053)
+  * debian/distccmon-gnome.menu:
+    - changed title to "distcc monitor"
+    - dropped incorrect hint tag
+  * debian/patches:
+    - 06_set-pythonpath-securely.patch: contains fix for #605168 which
+      was previously applied directly to the source
+    - 07_preferred-user.patch: starting the daemon as root causes it to
+      change user, which should be to "distccd" in Debian
+    - 08_gnome-data-public-dirs.patch: install desktop and icon files for
+      distccmon-gnome /usr/share/applications and /usr/share/pixmaps
+      respectively (LP: #512288)
+    - 09_rename-pump.patch: rename the "pump" command to "distcc-pump" in
+      all references such as help text, man pages, etc. (Closes: #594083)
+    - 10_consecutive-preprocessor-options.patch: correctly count
+      preprocessor options (Closes: #626926)
+    - 11_lsdistcc-man.patch: add man page for lsdistcc utility
+  * debian/watch:
+    - added remote watch file
+  * source/config.{guess,sub}:
+    - update with autotools-dev during build instead of directly patching
+      the source tree
+  * use dpkg triggers to dynamically generate/update compiler links
+    based on the ccache packaging.  Thanks to Daniel Schaal
+    (Closes: #651670)
+  * cherry-pick upstream fixes for IPv6 support (Closes: #452835):
+    - r650_ipv6-zeroconf.patch: IPv6 patch for Zeroconf and IPv6 literals
+      in hosts file (Closes: #481951, LP: #593047)
+    - r673_zeroconf-nodups.patch: remove duplicate hosts from the Zeroconf
+      list (LP: #809534)
+    - r678_distcc-v6-acl-2.patch: IPv6 support for access control
+  * cherry-pick other upstream fixes:
+    - r732_distccmon-gnome.patch: avoid client list growing indefinitely
+      (LP: #521165)
+
+ -- Daniel Hartwig <mandyke@gmail.com>  Mon, 05 May 2012 17:24:18 +0800
+
+distcc (3.1-4.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Move distcc-pump python modules to private path (/usr/lib/distcc-pump)
+    - 04_fix_pumps_include_server_path.dpatch: update for private path,
+      removes hardcoded python version from path.  Closes: #580308
+    - debian/rules: ensure PYTHON points to the default python version.
+  * Fix FTBFS on hurd-i386 caused by reliance on PATH_MAX.
+    Thanks to Jérémie Koenig for the patch.  Closes: #638258
+
+ -- Daniel Hartwig <mandyke@gmail.com>  Mon, 12 Mar 2012 22:25:08 +0800
+
+distcc (3.1-4.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues.
+    - fix typo in debconf templates and unfuzzy translations
+      Closes: #602224
+    - Dutch; (Jeroen Schot).  Closes: #655461
+    - Turkish (İsmail Baydan).  Closes: #655570
+
+ -- Christian Perrier <bubulle@debian.org>  Fri, 20 Jan 2012 06:57:33 +0100
+
+distcc (3.1-4) unstable; urgency=low
+
+  * Fix pending l10n issues. Debconf translations:
+    - Italian (Luca Monducci).  Closes: #574835, #593721
+    - Danish (Joe Hansen).  Closes: #600133
+    - Finnish (Esko Arajärvi).  Closes: #601029
+    - Dutch (Remco Rijnders). Closes: #602223
+  * Allow a NICE value of 0 in init script. Closes: #601362
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Mon, 20 Dec 2010 15:50:29 +0100
+
+distcc (3.1-3.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+
+  * source/pump.in: Set PYTHONPATH securely.  Closes: #605168.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 05 Dec 2010 22:58:22 -0600
+
+distcc (3.1-3.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Bump debhelper compatibility to 7
+  * As a consequence, replace "dh_clean -k" by "dh_prep"
+  * Use ${misc:Depends} to package dependencies to properly insert
+    dependencies triggerred by the use of debhelper
+  * Fix pending l10n issues. Debconf translations:
+    - Russian (Yuri Kozlov).  Closes: #564170
+    - Japanese (Hideki Yamane (Debian-JP)).  Closes: #564303
+    - French (Christian Perrier).  Closes: #564431
+    - Swedish (Martin Bagge).  Closes: #564767
+    - German (Thomas Mueller).  Closes: #564801
+    - Basque (Iñaki Larrañaga Murgoitio).  Closes: #573414
+    - Vietnamese (Clytie Siddall).  Closes: #573534
+    - Spanish (Francisco Javier Cuadrado).  Closes: #573957
+    - Czech (Miroslav Kure).  Closes: #573986
+    - Portuguese (Pedro Ribeiro).  Closes: #574242
+
+ -- Christian Perrier <bubulle@debian.org>  Fri, 19 Mar 2010 06:42:25 +0100
+
+distcc (3.1-3) unstable; urgency=low
+
+  * lowered dbus dependency to "Suggest", changed zeroconf default to "false"
+    and added notes, that dbus is needed for zeroconf support
+    (closes:Bug#514089)
+  * changed the name of the pump binary to distcc-pump, because of a possible
+    name clash with the unrelated "pump" package.
+    (closes:Bug#559196)
+  * translations
+    it (closes:Bug#551336)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Wed, 06 Jan 2010 09:34:42 +0100
+
+distcc (3.1-2) unstable; urgency=low
+
+  * added "--disable-Werror" configure flag. Thanks, Julien Lavergne.
+    (closes:Bug#537399)
+  * Make use of python-support. Thanks once more, Julien Lavergne. 
+    (closes:Bug#542944)
+  * properly remove PID file
+    (closes:Bug#526814)
+  * translation updates
+    cs (closes:Bug#546410)
+    de (closes:Bug#545903)
+    ja (closes:Bug#539594)
+    fr (closes:Bug#537216)
+    sv (closes:Bug#536712)
+    es (closes:Bug#535933)
+    ru (closes:Bug#535616)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Mon, 21 Sep 2009 17:44:54 +0200
+
+distcc (3.1-1) unstable; urgency=low
+
+  * New upstream release
+    (closes:Bug#524204)
+    (closes:Bug#494187)
+    (closes:Bug#501360)
+  * moved source-tree into subdirectory "source" to work around troubles with
+    python's distutil choking on the debian directory.
+    I'm clueless about python, so this might not be the best solution, but it
+    works.
+  * patched Makefile.in to fit the packages requirements
+  * updated README.debian
+  * added a new binary package "distcc-pump", because it's only needed on the
+    client machine, so we don't want to pull in the python dependency into the
+    "distcc" binary package (and thus every server)
+  * added the "distcc/jobs" debconf template and support for it in the init.d
+    script and etc/default.
+    (closes:Bug#522763)
+  * added "Should-Start: $network" to init.d script.
+    (closes:Bug#481465)
+  * fixed spurious warning in init.d start action
+    (closes:Bug#533197)
+  * added "status" action to init.d script
+    (closes:Bug#526570)
+  * translation update
+    es (closes:Bug#508726)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Sat, 20 Jun 2009 20:21:25 +0200
+
+distcc (2.18.3-8) unstable; urgency=low
+
+  * translation updates
+    sv (closes:Bug#492096)
+    ja (closes:Bug#489933)
+  * use LSB function instead of echo in initscript
+    (closes:Bug#489119)
+  * use reportbug presubj instead of interactive bug script
+    (closes:Bug#456906)
+  * new standards version (no changes)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Fri, 25 Jul 2008 13:45:26 +0200
+
+distcc (2.18.3-7.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues.
+  * Debconf translations:
+    - German. Closes: #478298
+    - Portuguese. Closes: #478345
+    - Czech. Closes: #478804
+    - Brazilian Portuguese. Closes: #479103
+    - Russian. Closes: #479600
+    - Dutch. Closes: #480149
+    - Turkish. Closes: #486734
+    - Basque. Closes: #487309
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 02 Jun 2008 18:43:15 +0200
+
+distcc (2.18.3-7) unstable; urgency=low
+
+  * translation updates gl
+    (closes:Bug#477934)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Fri, 25 Apr 2008 22:22:51 +0200
+
+distcc (2.18.3-6) unstable; urgency=low
+
+  * added dbus dependency (needed because of the zeroconf patch)
+    (closes:Bug#470860)
+  * translation updates fr,vi,fi
+    (closes:Bug#477816)
+    (closes:Bug#477801)
+    (closes:Bug#471008)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Fri, 25 Apr 2008 21:51:42 +0200
+
+distcc (2.18.3-5) unstable; urgency=low
+
+  * removes logfiles when purged
+    (closes:Bug#340023)
+  * add NICE value for daemon to default/distcc
+    (closes:Bug333660)
+  * "masquerade" symlinks for more gcc versions
+  * create a sample /etc/distcc/hosts file
+    (closes:Bug#317057)
+  * a variable not set in etc/default/distcc is now treated as empty in init.d
+    (closes:Bug#336919)
+  * use reportbug presubj instead of script
+    (closes: Bug#456903)
+  * turn error checking in init.d-script on before inclusion of default/distcc
+    (closes: Bug#333659)
+  * included zeroconf patch. Thanks Lennart Poettering!
+    (closes: Bug#458358)
+    (closes: Bug#383270)
+  * two more files in clean target
+  * only ask all debconf-questions, if "start daemon?" was true
+    (closes: Bug#422753)
+  * policy update 3.7.3 - no changes
+  * made lintian happy
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Wed, 29 Feb 2008 11:01:28 +0100
+
+distcc (2.18.3-4.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix encoding for changelog (lenny release goal)
+  * Add LSB-formatted dependency to init script. Closes: #460249
+  * Debconf translations while I'm at it:
+    - Galician. Closes: #412869
+    - Dutch. Closes: #413879
+    - Brazilian. Closes: #435559
+  * Add po-debconf to build dependencies (thanks, lintian)
+  * Change menu section from Apps to Applications (thanks, lintian)
+  * Do not ignore "make distclean" errors in the clean target
+    (thanks, lintian)
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 04 Feb 2008 17:48:14 +0100
+
+distcc (2.18.3-4.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+
+  * Added German translation (thanks Matthias Julius) (Closes: #399011)
+
+ -- Bastian Venthur <venthur@debian.org>  Sat, 27 Jan 2007 22:53:19 +0100
+
+distcc (2.18.3-4) unstable; urgency=low
+
+  * added manpage for distccmon-gnome (thanks to Mohammed Adnène Trojette)
+    (closes:Bug#265776)
+  * added translations/updates for es,ja,pt,cs,sv,fr (thanks to the translators)
+    (closes:Bug#367280)
+    (closes:Bug#393209)
+    (closes:Bug#381661)
+    (closes:Bug#341931)
+    (closes:Bug#338259)
+    (closes:Bug#335028)
+  * list all exit codes in distcc manpage
+    (closes:Bug#333662)
+  * more verbose init.d on error (thanks to Jari Aalto)
+    (closes:Bug#333667)
+  * make use of dpatch
+  * updated standards version to 3.7.2.2 (no changes)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Wed, 18 Oct 2006 09:11:43 +0200
+
+distcc (2.18.3-3) unstable; urgency=low
+
+  * added dependency-alternative on debconf-2.0
+    (closes: Bug#331804)
+  * added version to adduser dependency
+    (closes: Bug#330822)
+  * only remove user in postrm, if the user exists and deluser is available
+    (closes: Bug#330754)
+    (closes: Bug#298489)
+  * added Vietnamese and Czech debconf template translations
+    thanks to Clytie Siddall and Miroslav Kure
+    (closes: Bug#313561)
+    (closes: Bug#315826)
+  * added --listen option and some warnings about distccd and untrusted nets
+    (closes: Bug#323308)
+    (closes: Bug#276277)
+    (closes: BUg#298929)
+  * new standards version 3.6.2 (no changes)
+  * updated FSF's postal address in the copyright file
+  * corrected "possible-bashism-in-maintainer-script" in config
+  * added "masquerade" directory /usr/lib/distcc with symlinks to distcc,
+    named after debian's compilers
+    (closes: Bug#217924)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Wed,  5 Oct 2005 20:35:16 +0200
+
+distcc (2.18.3-2) unstable; urgency=low
+
+  * fixed compilation on alpha and amd64
+    (closes: Bug#299028)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Sat, 12 Mar 2005 02:05:49 +0100
+
+distcc (2.18.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Sun,  6 Mar 2005 01:11:07 +0100
+
+distcc (2.18.1-5) unstable; urgency=low
+
+  * added reportbug-integration of uptream's reporting-howto
+    (closes: Bug#211632)
+  * Accept "YES" for "true" in init.d-script, so now it behaves correctly
+    on updates from old versions
+    (closes: Bug#276370)
+  * added Japanese and Portuguese debconf templates translation
+    thanks to Hideki and Miguel
+    (closes: Bug#283274)
+    (closes: Bug#286376)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Sat, 25 Dec 2004 19:00:24 +0100
+
+distcc (2.18.1-4) unstable; urgency=low
+
+  * corrected configure-switch, that should have enabled IPv6 support before
+    (closes: Bug#272617)
+  * added french translation
+    (closes: Bug#281483)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Mon, 22 Nov 2004 13:13:13 +0100
+
+distcc (2.18.1-3) unstable; urgency=low
+
+  * applied one-line patch to source, to fix build on some arches
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Thu, 11 Nov 2004 12:32:34 +0100
+
+distcc (2.18.1-2) unstable; urgency=low
+
+  * rebuild on plain sid machine to get deps corrected
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Tue, 09 Nov 2004 19:16:59 +0100
+
+distcc (2.18.1-1) unstable; urgency=low
+
+  * New upstream release
+    (closes: Bug#269645)
+    (closes: Bug#269644)
+  * added debconf-template and config-option for the now mandatory
+    "allow"-parameter of distccd
+  * enabled IPv6 Support
+    (closes: Bug#272617)
+  * added suggestion "ccache" to distcc
+    (closes: Bug#269159)
+  * added suggestion "distcc" to distccmon-gnome
+    (closes: Bug#265775)
+  * switched to gettext-based debconf templates
+    (closes: Bug#241966)
+  * only remove distccd user, when package is purged (thanks, Jack)
+    (closes: Bug#278876)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Wed,  3 Nov 2004 14:17:46 +0100
+
+distcc (2.17-1) unstable; urgency=low
+
+  * New upstream release (from 2004-07-31)
+  * fixed init.d's quotation, STARTDISTCC check on restart and PID meddeling
+    (closes: Bug#251646)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Fri, 13 Aug 2004 17:21:50 +0200
+
+distcc (2.16-1) unstable; urgency=low
+
+  * New upstream release
+  * took package from NoÃ¨l (he offered it to me)
+
+ -- Carsten Wolff <carsten@wolffcarsten.de>  Sun, 25 Jul 2004 18:34:06 +0200
+
+distcc (2.14-1) unstable; urgency=low
+
+  * new release version (from 2004-05-02)
+  * added missing survey.txt to the package
+    (closes: Bug#240954)
+  * corrected STARTDISTCC check if distcc should start or not
+    (thx Stuart for your patch)
+    (closes: Bug#245018)
+  * corrected /var/log/distcc.log creation if it doesn't exists
+    (closes: Bug#241126)
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Thu, 06 May 2004 00:37:48 +0200
+
+distcc (2.13-1) unstable; urgency=low
+
+  * new release version (from 2004-03-02)
+  * distcc suggests now distccmon-gnome
+    (closes: Bug#237690)
+  * added deconf support (thanks alot to christophe nowicki!)
+    (closes: Bug#235991)
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Mon, 29 Mar 2004 17:13:38 +0200
+
+distcc (2.12.1-2) unstable; urgency=low
+
+  * distcc starts only if STARTDISTCC in /etc/default/distcc is
+    set to YES
+    (closes: Bug#228508)
+    (closes: Bug#223286)
+  * removed port and nice option in init script to use the default
+    (closes: Bug#228498)
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Tue, 20 Jan 2004 20:58:03 +0100
+
+distcc (2.12.1-1) unstable; urgency=low
+
+  * new upstream release from 2004-01-09
+  * upstream added the distccmon-text manpage
+    (thanks Shri Shrikumar)
+    (closes: Bug#224730)
+  * removed debconf info about port change
+    (closes: Bug#226878)
+    (closes: Bug#211634)
+    (closes: Bug#223447)
+  * added Debian menu entry for distccmon-gnome
+    (closes: Bug#226944)
+  * switched from inetd to init
+    (closes: Bug#161136)
+    (closes: Bug#210596)
+    (closes: Bug#213998)
+    (closes: Bug#225147)
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Sat, 10 Jan 2004 14:15:00 +0100
+
+distcc (2.11.2-1) unstable; urgency=low
+
+  * new upstream release from 2003-10-23
+  * upstream added feature request
+    (closes: Bug#207831)
+  * seperated the new gnome mon programm from the distcc package
+  * added gnome dependencies to build distccmon-gnome
+  * updated Standards-Version
+  * switched to gettext-based debconf templates
+    (closes: bug#210461)
+  * added french translation of debconf. thx Christian Perrier
+    (closes: Bug#211634)
+  * added logrotate
+    (closes: Bug#203747)
+  * closing bug which were fixed with the last upload but were detected
+    wrongly as NMU
+    (closes: Bug#211600)
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Sun, 25 Oct 2003 12:34:00 +0200
+
+distcc (2.10.1-2) unstable; urgency=low
+
+  * removed doc-base. there are no html docs anymore
+    (closes: Bug#211600)
+  * removed empty /usr/sbin dir from package
+  * added /etc/distcc to package for host config
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Fri, 19 Sep 2003 07:57:00 +0200
+
+distcc (2.10.1-1) unstable; urgency=low
+
+  * took package from Paul (he orphaned it)
+    (closes: Bug#210397)
+  * new upstream release from 2003-08-12
+    (closes: Bug#203028)
+  * sgml documentation is removed by upstream
+    (closes: Bug#210597)
+  * switched to "make install DESTDIR=" in debian rules
+  * added TODO to package documentation
+  * updated Standards-Version
+  * added homepage URL to description
+  * corrected copyright file
+
+ -- NoÃ¨l KÃ¶the <noel@debian.org>  Wed, 17 Sep 2003 23:09:00 +0200
+
+distcc (2.5.1-1) unstable; urgency=low
+
+  * New upstream release (closes: #196352)
+
+  * Add local patch for falling back to execing without path if
+    fullpathname fails.
+
+ -- Paul Russell <prussell@debian.org>  Tue, 10 Jun 2003 10:01:58 +0200
+
+distcc (2.4.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Paul Russell <prussell@debian.org>  Mon, 26 May 2003 09:16:06 +0200
+
+distcc (2.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Paul Russell <prussell@debian.org>  Mon,  5 May 2003 08:31:13 +0200
+
+distcc (2.0.1-1) unstable; urgency=low
+
+  * New upstream release
+
+  * Use distcc as service field, need recent netbase (closes: #188952)
+
+ -- Paul Russell <prussell@debian.org>  Thu, 17 Apr 2003 05:11:55 +0200
+
+distcc (1.2.3-1) unstable; urgency=low
+
+  * New upstream release (closes: #181152, #183657)
+
+ -- Paul Russell <prussell@debian.org>  Tue, 25 Mar 2003 08:31:48 +0100
+
+distcc (1.1-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Paul Russell <prussell@debian.org>  Wed,  5 Feb 2003 09:37:30 +0100
+
+distcc (0.15-1) unstable; urgency=low
+
+  * New upstream release (closes: #172518, #159359)
+
+  * Remove -g from default build
+
+  * Use autoconf to generate configure from configure.ac
+
+  * Changed port to 3632 from 4200 (upstream change to official IANA
+    number).
+
+  * Fix purge when there's no distccd user.
+	
+  * Note: (Moved out of copyright file).  This package was debianized
+    by Paul Russell <prussell@debian.org> on Fri, 12 Jul 2002 02:28:34
+    +0200.  It was downloaded from http://distcc.samba.org. Upstream
+    Author(s): Martin Pool <mbp@sourcefrog.net>
+
+ -- Paul Russell <prussell@debian.org>  Thu, 19 Dec 2002 05:11:41 +0100
+
+distcc (0.12-1) unstable; urgency=low
+
+  * New upstream release (slack of me, huh?)
+
+  * Don't use debhelper to add to prerm etc, since it creates /usr/doc
+    symlink which lintian warns about.
+	
+ -- Paul Russell <prussell@debian.org>  Mon,  4 Nov 2002 00:50:52 +0100
+
+distcc (0.6-5) unstable; urgency=high
+
+  * Be more careful when deleting distccd user (NEVER delete home dir /!)
+    This is why the urgency is high, given one report of this happening.
+
+  * "Chris Halls" <chris.halls@gmx.de> patch to handle .ii files
+    (closes: #156656)
+
+  * Fixed abstract non-sentence (closes: #155327)
+
+ -- Paul Russell <prussell@debian.org>  Thu, 15 Aug 2002 07:30:30 +0200
+
+distcc (0.6-4) unstable; urgency=low
+
+  * Add adduser to the dependencies (thanks to Juan Manuel Garca Molina <juanma_gm@wanadoo.es>)
+
+ -- Paul Russell <prussell@debian.org>  Tue, 30 Jul 2002 06:42:43 +0200
+
+distcc (0.6-3) unstable; urgency=low
+
+  * Change build depends from docbook-to-man to linuxdoc
+
+  * Bump version number by two to take back maintainership.
+
+ -- Paul Russell <prussell@debian.org>  Tue, 30 Jul 2002 05:42:06 +0200
+
+distcc (0.6-1) unstable; urgency=low
+
+  * Initial Release (closes: #147248)
+
+ -- Paul Russell <prussell@debian.org>  Fri, 12 Jul 2002 02:28:34 +0200
+

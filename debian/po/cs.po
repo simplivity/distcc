@@ -1,0 +1,217 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: distcc\n"
+"Report-Msgid-Bugs-To: distcc@packages.debian.org\n"
+"POT-Creation-Date: 2010-01-05 23:23+0100\n"
+"PO-Revision-Date: 2010-03-11 09:12+0100\n"
+"Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid "Start the distcc daemon on startup?"
+msgstr "Spustit daemon distcc při zavádění systému?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"distcc can be run as a daemon, listening on port 3632 for incoming "
+"connections."
+msgstr ""
+"Distcc může běžet jako daemon a na portu 3632 čekat na příchozí spojení."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"You have the option of starting the distcc daemon automatically on the "
+"computer startup. If in doubt, it's advised not to start it automatically on "
+"startup. If you later change your mind, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Nyní si můžete vybrat, zda se má daemon distcc spouštět automaticky při "
+"startu systému. Pokud jste na pochybách doporučujeme jej při zavádění "
+"nespouštět. Jestliže se později rozhodnete jinak, stačí spustit „dpkg-"
+"reconfigure distcc“."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid "Allowed client networks:"
+msgstr "Povolené sítě klientů:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"The distcc daemon implements access control based on the IP address of the "
+"client, that is trying to connect. Only the hosts or networks listed here "
+"are allowed to connect."
+msgstr ""
+"Daemon distcc spravuje přístupová oprávnění na základě IP adresy klienta, "
+"který se snaží připojit. Pouze počítače nebo sítě zde zadané se mohou "
+"připojit."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"You can list multiple hosts and/or networks, separated by spaces. Hosts are "
+"represented by their IP address, networks have to be in CIDR notation, f.e. "
+"\"192.168.1.0/24\"."
+msgstr ""
+"Můžete zadat více počítačů a/nebo sítí oddělených mezerami. Počítače jsou "
+"reprezentovány svými IP adresami, sítě musí být zadány CIDR notací, "
+"například „192.168.1.0/24“."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"To change the list at a later point, you can run: 'dpkg-reconfigure distcc'."
+msgstr "Seznam můžete později změnit příkazem „dpkg-reconfigure distcc“."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "Listen interfaces:"
+msgstr "Naslouchat na rozhraních:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "The distcc daemon can be bound to a specific network interface."
+msgstr "Daemon distcc může být svázán s konkrétním síťovým rozhraním."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"You probably want to choose the interface of your local network by entering "
+"its IP address. If distccd should listen on all interfaces, just enter "
+"nothing."
+msgstr ""
+"Pravděpodobně chcete použít síťové rozhraní do své lokální sítě - stačí "
+"zadat jeho IP adresu. Pokud má distccd poslouchat na všech síťových "
+"rozhraních, nezadávejte nic."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"Be sure to protect distccd from unauthorized access, by being careful in "
+"your choice of the listen interface and allowed networks. distccd should  "
+"never be accessible from untrusted networks. If that is needed, secureshell "
+"should be used instead of the daemon."
+msgstr ""
+"Ve výběru rozhraní a povolených sítí buďte opatrní, abyste ochránili distccd "
+"před neoprávněnými přístupy. distccd by nikdy neměl být přístupný z "
+"nedůvěryhodných sítí. Pokud to však z nějakého důvodu vyžadujete, použijte "
+"raději místo tohoto daemona ssh."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"To change the address at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr "Adresu můžete změnit později příkazem „dpkg-reconfigure distcc“."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid "Nice level:"
+msgstr "Hodnota „nice“:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid ""
+"You can start the distcc daemon with a nice level, to give it a low priority "
+"compared to other processes. The start script will only accept values "
+"between 0 and 20."
+msgstr ""
+"Daemon distcc můžete spustit s hodnotou „nice“, což je hodnota, která říká, "
+"jak ohleduplný bude tento proces k ostatním procesům v systému. Můžete "
+"použít celá čísla mezi 0 a 20 (vyšší hodnota znamená větší ohleduplnost, tj. "
+"menší prioritu)."
+
+#. Type: string
+#. Description
+#. Type: string
+#. Description
+#. Type: boolean
+#. Description
+#: ../distcc.templates:4001 ../distcc.templates:5001 ../distcc.templates:6001
+msgid ""
+"To change this value at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr "Tuto hodnotu můžete později změnit příkazem „dpkg-reconfigure distcc“."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid "Maximum number of concurrent jobs:"
+msgstr "Maximální počet souběžných úloh:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid ""
+"You can tell the distcc daemon to accept a maximum number of jobs at a time. "
+"This can be useful on systems that should stay interactive while they serve "
+"as a distcc server. Usually, you will want to set this to a value matching "
+"or doubling the number of cores on this system."
+msgstr ""
+"Tímto nastavením můžete daemonu distcc sdělit maximální počet úloh, které "
+"může zpracovávat současně. To je užitečné na systémech, které mají zůstat "
+"interaktivní i když jsou vytíženy distcc serverem. Obvykle se tato hodnota "
+"nastavuje na číslo odpovídající počtu jader procesoru, nebo jejich "
+"dvojnásobek."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "Enable Zeroconf support?"
+msgstr "Povolit podporu Zeroconf?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "distcc has Zeroconf support."
+msgstr "distcc podporuje Zeroconf."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid ""
+"If you enable it here, please read /usr/share/doc/distcc/README.Debian to "
+"learn how clients must be configured to make use of it. Also note, that you "
+"need to install the dbus package, if you're going to use Zeroconf."
+msgstr ""
+"Povolíte-li tuto možnost, přečtěte si prosím soubor /usr/share/doc/distcc/"
+"README.Debian, ve kterém se dozvíte, jak je třeba nakonfigurovat klienty, "
+"aby tuto vlastnost využili. Chcete-li Zeroconf používat, musíte mít "
+"nainstalovaný také balík dbus."
+
+#~ msgid "distcc for Debian has been patched with Zeroconf support."
+#~ msgstr "distcc byl v Debianu upraven tak, aby podporoval Zeroconf."

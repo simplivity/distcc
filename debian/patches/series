@@ -1,0 +1,14 @@
+02_distccmongnome_man.dpatch
+03_do_not_install_redhat_config.dpatch
+04_fix_pumps_include_server_path.dpatch
+05_path_max.dpatch
+06_set-pythonpath-securely.patch
+07_preferred-user.patch
+08_gnome-data-public-dirs.patch
+09_rename-pump.patch
+10_consecutive-preprocessor-options.patch
+11_lsdistcc-man.patch
+r650_ipv6-zeroconf.patch
+r673_zeroconf-nodups.patch
+r678_distcc-v6-acl-2.patch
+r732_distccmon-gnome-client-list.patch

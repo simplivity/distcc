@@ -1,0 +1,52 @@
+distcc for Debian
+-----------------
+
+There are several ways to use distcc. You can use:
+1) "plain" distcc
+2) distcc together with it's "pump" mode
+3) distcc together with ccache
+
+Of course, the choice depends on the situation
+ad 1)   If you have a small number of CPUs and you don't recompile the same
+        code tree often, this might be the right choice for you.
+ad 2)   If you have a large number of CPUs (>10), and recompiling the same
+        code tree often is secondary to you, pump mode is the way to go.
+        You need to install the distcc-pump package for that, but only the
+        client machine needs it.
+ad 3)   If you are recompiling the same code often on a relatively small number
+        of CPUs and you don't mind the additional disk usage of ccache, this is
+        your solution.
+
+Configuring the 3 modes of operation
+conf 1) export DISTCC_HOSTS="localhost server1 server2 server3"
+        export PATH=/usr/lib/distcc:$PATH
+        make -j 8
+conf 2) export DISTCC_POTENTIAL_HOSTS='localhost server1 server2 server3'
+        distcc-pump make -j 8 CC=distcc
+conf 3) export DISTCC_HOSTS="localhost server1 server2 server3"
+        export PATH=/usr/lib/ccache:$PATH
+        export CCACHE_PREFIX=distcc
+        make -j 8
+(The best number of parallel jobs depends on the number of CPUs. "8" is just
+ an example)
+
+
+If you enabled zeroconf support for the distcc daemon during package
+configuration and you are not using pump mode, you can also choose to let
+distcc try and find it's servers by itself. Note, that dbus needs to be
+installed for this to work.
+Host specification changes to: export DISTCC_HOSTS="+zeroconf"
+Determine the number of jobs : make -j `distcc -j`
+
+If you didn't enable zeroconf, but you have control over the networks DNS,
+there's another way for distcc host discovery. The pump program uses a tool
+called "lsdistcc", which searches for hosts named distcc[0-9]. So, if you name
+your distcc servers distcc1, distcc2, distcc3, and so on, you can use lsdistcc
+like:
+export DISTCC_HOSTS=`lsdistcc`
+
+
+To learn more about distcc configuration, read:
+http://distcc.googlecode.com/svn/trunk/doc/web/index.html
+
+Carsten Wolff <carsten@wolffcarsten.de>, Mon, 20 Jun 2009 17:30:51 +0200

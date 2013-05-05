@@ -1,0 +1,3 @@
+# This directory holds the compiler symlinks and is populated during
+# postinst.
+distcc binary: package-contains-empty-directory usr/lib/distcc/

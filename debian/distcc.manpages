@@ -1,0 +1,5 @@
+debian/tmp/usr/share/man/man1/distcc.1
+debian/tmp/usr/share/man/man1/distccd.1
+debian/tmp/usr/share/man/man1/distccmon-text.1
+debian/tmp/usr/share/man/man1/lsdistcc.1
+debian/update-distcc-symlinks.8

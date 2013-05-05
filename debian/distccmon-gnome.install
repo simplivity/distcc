@@ -1,0 +1,3 @@
+debian/tmp/usr/bin/distccmon-gnome
+debian/tmp/usr/share/applications/distccmon-gnome.desktop
+debian/tmp/usr/share/pixmaps/distccmon-gnome-icon.png

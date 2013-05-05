@@ -1,0 +1,4 @@
+?package(distccmon-gnome):	needs="X11" \
+				section="Applications/Programming" \
+				title="distcc monitor" \
+				command="/usr/bin/distccmon-gnome"

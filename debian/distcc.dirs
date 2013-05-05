@@ -1,0 +1,7 @@
+etc/distcc
+usr/bin
+usr/lib/distcc
+usr/sbin
+usr/share/doc/distcc
+usr/share/man/man1
+usr/share/bug/distcc

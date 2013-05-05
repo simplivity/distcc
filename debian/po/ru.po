@@ -1,0 +1,209 @@
+# translation of distcc_3.1-3_ru.po to Russian
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Yuri Kozlov <kozlov.y@gmail.com>, 2008.
+# Yuri Kozlov <yuray@komyakino.ru>, 2009, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: distcc 3.1-3\n"
+"Report-Msgid-Bugs-To: distcc@packages.debian.org\n"
+"POT-Creation-Date: 2010-01-05 23:23+0100\n"
+"PO-Revision-Date: 2010-01-08 09:10+0300\n"
+"Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid "Start the distcc daemon on startup?"
+msgstr "Запускать службу distcc при включении компьютера?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"distcc can be run as a daemon, listening on port 3632 for incoming "
+"connections."
+msgstr ""
+"distcc может запускаться в виде службы, ожидающей входящих соединений на "
+"порту 3632."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:1001
+msgid ""
+"You have the option of starting the distcc daemon automatically on the "
+"computer startup. If in doubt, it's advised not to start it automatically on "
+"startup. If you later change your mind, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr ""
+"Вы можете настроить службу distcc на автоматический запуск при включении "
+"компьютера. Если не уверены, не запускайте службу автоматически. Позже можно "
+"изменить настройку запустив: 'dpkg-reconfigure distcc'."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid "Allowed client networks:"
+msgstr "Разрешённые клиентские адреса сетей:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"The distcc daemon implements access control based on the IP address of the "
+"client, that is trying to connect. Only the hosts or networks listed here "
+"are allowed to connect."
+msgstr ""
+"В службе distcc реализован контроль доступа по IP-адресу клиента, который "
+"пытается подключиться. Разрешено подключаться только машинам и сетям, "
+"указанным здесь."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"You can list multiple hosts and/or networks, separated by spaces. Hosts are "
+"represented by their IP address, networks have to be in CIDR notation, f.e. "
+"\"192.168.1.0/24\"."
+msgstr ""
+"Можно указать несколько машин и/или сетей через пробелы. Машины описываются "
+"своими IP-адресами, а сети указываются в формате CIDR, например, "
+"\"192.168.1.0/24\"."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:2001
+msgid ""
+"To change the list at a later point, you can run: 'dpkg-reconfigure distcc'."
+msgstr "Позже можно изменить настройку, запустив: 'dpkg-reconfigure distcc'."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "Listen interfaces:"
+msgstr "Прослушиваемые интерфейсы:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid "The distcc daemon can be bound to a specific network interface."
+msgstr ""
+"Служба distcc может быть привязана к определённому сетевому интерфейсу."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"You probably want to choose the interface of your local network by entering "
+"its IP address. If distccd should listen on all interfaces, just enter "
+"nothing."
+msgstr ""
+"Обычно, здесь вводят IP-адрес интерфейса, через который осуществляется "
+"подключение к локальной сети. Если distccd должен ожидать запросы на всех "
+"интерфейсах, то ничего не вводите."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"Be sure to protect distccd from unauthorized access, by being careful in "
+"your choice of the listen interface and allowed networks. distccd should  "
+"never be accessible from untrusted networks. If that is needed, secureshell "
+"should be used instead of the daemon."
+msgstr ""
+"Внимательней выбирайте прослушиваемый интерфейс и разрешённые сети, чтобы "
+"защитить distccd от несанкционированного доступа. distccd никогда не должен "
+"быть доступен из ненадёжных сетей. Если это всё же требуется, то вместо "
+"службы нужно использовать secureshell."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:3001
+msgid ""
+"To change the address at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr "Позже можно изменить адрес, запустив: 'dpkg-reconfigure distcc'."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid "Nice level:"
+msgstr "Уровень nice:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:4001
+msgid ""
+"You can start the distcc daemon with a nice level, to give it a low priority "
+"compared to other processes. The start script will only accept values "
+"between 0 and 20."
+msgstr ""
+"Можно запускать службу distcc с определённым уровнем nice, что позволяет "
+"понизить её приоритет по сравнению с другими процессами. Сценарий запуска "
+"принимает значения только от 0 до 20."
+
+#. Type: string
+#. Description
+#. Type: string
+#. Description
+#. Type: boolean
+#. Description
+#: ../distcc.templates:4001 ../distcc.templates:5001 ../distcc.templates:6001
+msgid ""
+"To change this value at a later point, you can run: 'dpkg-reconfigure "
+"distcc'."
+msgstr "Позже можно изменить значение, запустив: 'dpkg-reconfigure distcc'."
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid "Maximum number of concurrent jobs:"
+msgstr "Максимальное число одновременно выполняемых заданий:"
+
+#. Type: string
+#. Description
+#: ../distcc.templates:5001
+msgid ""
+"You can tell the distcc daemon to accept a maximum number of jobs at a time. "
+"This can be useful on systems that should stay interactive while they serve "
+"as a distcc server. Usually, you will want to set this to a value matching "
+"or doubling the number of cores on this system."
+msgstr ""
+"Вы можете указать службе distcc максимальное число одновременно принимаемых "
+"заданий. Это полезно на системах, которые должны выполнять другую работу "
+"помимо запущенного сервера distcc. Обычно, здесь устанавливают значение, "
+"которое совпадает с числом (или удвоенное) ядер системы."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "Enable Zeroconf support?"
+msgstr "Включить поддержку Zeroconf?"
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid "distcc has Zeroconf support."
+msgstr "distcc поддерживает Zeroconf."
+
+#. Type: boolean
+#. Description
+#: ../distcc.templates:6001
+msgid ""
+"If you enable it here, please read /usr/share/doc/distcc/README.Debian to "
+"learn how clients must be configured to make use of it. Also note, that you "
+"need to install the dbus package, if you're going to use Zeroconf."
+msgstr ""
+"Если вы ответите утвердительно, то прочитайте в /usr/share/doc/distcc/README."
+"Debian, о том как нужно настраивать клиентов, что они смогли использовать "
+"данную возможность. Заметим также, что вам нужно установить пакет dbus, если "
+"вы хотите использовать Zeroconf."

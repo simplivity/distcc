@@ -1,0 +1,5 @@
+source/NEWS
+source/README
+source/TODO
+source/doc/*.txt
+source/survey.txt

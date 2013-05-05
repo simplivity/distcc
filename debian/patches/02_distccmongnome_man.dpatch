@@ -1,0 +1,128 @@
+#! /bin/sh -e
+## 02_distccmongnome_man.dpatch by Carsten Wolff <carsten@wolffcarsten.de>
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+        echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+        exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+--- distcc-2.18.3.orig/source/man/distccmon-gnome.1
++++ distcc-2.18.3/source/man/distccmon-gnome.1
+@@ -0,0 +1,93 @@
++.\"
++.TH Distccmon-gnome 1 "March 1, 2005"
++.SH NAME
++Distccmon-gnome \- GTK monitor for distcc a distributed client and server
++.SH SYNOPSIS
++.B distccmon-gnome
++.RI [OPTION...]
++.SH DESCRIPTION
++This manual page documents briefly the
++.B Distccmon-gnome
++commands.
++.PP
++.SH OPTIONS
++This version of distccmon-gnome understands the following command line options:
++.TP
++.B --load-modules=MODULE1,MODULE2,...
++Dynamic modules to load
++.TP
++.B -?, --help
++Show this help message
++.TP
++.B --usage
++Display brief usage message
++.TP
++.B --gdk-debug=FLAGS
++Gdk debugging flags to set
++.TP
++.B --gdk-no-debug=FLAGS
++Gdk debugging flags to unset
++.TP
++.B --display=DISPLAY
++X display to use
++.TP
++.B --screen=SCREEN
++X screen to use
++.TP
++.B --sync
++Make X calls synchronous
++.TP
++.B --name=NAME
++Program name as used by the window manager
++.TP
++.B --class=CLASS
++Program class as used by the window manager
++.TP
++.B --gtk-debug=FLAGES
++Gtk+ debugging flags to set
++.TP
++.B --gtk-no-debug=FLAGS
++Gtk+ debugging flags to unset
++.TP
++.B --g-fatal-warnings
++Make all warnings fatal
++.TP
++.B --gtk-module=MODULE
++Load an additional Gtk module
++.TP
++.B --oaf-ior-fd=FD
++File descriptor to print IOR on
++.TP
++.B --oaf-activate-iid=IID
++IID to activate
++.TP
++.B --oaf-private
++Prevent registering of server with OAF
++.TP
++.B --disable-sound
++Disable sound server usage
++.TP
++.B --enable-sound
++Enable sound server usage
++.TP
++.B --espeaker=HOSTNAME:PORT
++Host:port on which the sound server to use is running
++.TP
++.B --version
++Print the current version of distccmon-gnome
++.TP
++.B --sm-client-id=ID
++Specify session management ID
++.TP
++.B --sm-config-prefix=PREFIX
++Specify prefix of saved configuration
++.TP
++.B --sm-disable
++Disable connection to session manager
++.TP
++.B --disable-crash-dialog
++Disable Crash Dialog
++.SH AUTHOR
++Distccmon-gnome was written by Martin Pool.
++.PP
++This manual page was written by Mohammed Adnène Trojette for the Debian project (but may be used by others).
+--- distcc-2.18.3.orig/source/Makefile.in
++++ distcc-2.18.3/source/Makefile.in
+@@ -368,9 +368,9 @@
+ default_files = $(default_dir)/distcc
+ 
+ man1_MEN = man/distcc.1 man/distccd.1 man/distccmon-text.1 \
+-           man/pump.1 man/include_server.1
++           man/pump.1 man/include_server.1 man/distccmon-gnome.1
+ man_HTML = man/distcc_1.html man/distccd_1.html man/distccmon_text_1.html \
+-	   man/pump_1.html man/include_server_1.html
++	   man/pump_1.html man/include_server_1.html man/distccmon-gnome_1.html
+ MEN = $(man1_MEN)
+ 
+ gnome_data = gnome/distccmon-gnome-icon.png	\

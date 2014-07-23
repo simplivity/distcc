@@ -1,5 +1,6 @@
 debian/tmp/usr/bin/distcc
 debian/tmp/usr/bin/distccd
+debian/tmp/usr/bin/distccd-bin
 debian/tmp/usr/bin/distccmon-text
 debian/tmp/usr/bin/lsdistcc
 debian/hosts etc/distcc

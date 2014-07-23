@@ -497,7 +497,7 @@ distccd@EXEEXT@: $@
 	@ echo "Constructing wrapper script to disable attempts to cork TCP connections over SSH."
 	@ echo '#!/bin/bash' > distccd
 	@ echo 'export DISTCC_TCP_CORK=0' >> distccd
-	@ echo 'exec /usr/bin/distccd-bin $@' >> distccd
+	@ echo 'exec /usr/bin/distccd-bin $$@' >> distccd
 
 distccd-bin@EXEEXT@: $(distccd_obj)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(distccd_obj) $(LIBS)	

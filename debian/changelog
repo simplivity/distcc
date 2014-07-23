@@ -1,3 +1,9 @@
+distcc (3.1-6+svt3) precise; urgency=low
+
+  * Fixing missing distccd-bin binary in the package.
+
+ -- Kevin Pease <kpease@simplivity.com>  Wed, 23 Jul 2014 18:32:17 -0400
+
 distcc (3.1-6+svt2) precise; urgency=low
 
   * Resolves REL-319:  distccd doesn't pass command line arguments properly

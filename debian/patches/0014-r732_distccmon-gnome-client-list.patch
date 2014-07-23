@@ -1,80 +1,21 @@
-Description: Avoid client list growing indefinitely in distccmon-gnome
-Bug: http://code.google.com/p/distcc/issues/detail?id=36
-Bug-Ubuntu: https://bugs.launchpad.net/bugs/521165
-Author: Jeremy Murphy <jeremy.william.murphy@gmail.com>
-Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: r732_distccmon-gnome-client-list
 
---- a/source/src/where.c
-+++ b/source/src/where.c
-@@ -124,7 +124,9 @@
- 
-     unsigned pause_time = 1;
- 
--    dcc_note_state(DCC_PHASE_BLOCKED, NULL, NULL);
-+	/*	This call to dcc_note_state() is made before the host is known, so it
-+		does not make sense and does nothing useful as far as I can tell.	*/
-+    /*	dcc_note_state(DCC_PHASE_BLOCKED, NULL, NULL, DCC_UNKNOWN);	*/
- 
-     rs_trace("nothing available, sleeping %us...", pause_time);
- 
-@@ -159,7 +161,7 @@
- 
-                 if (ret == 0) {
-                     *buildhost = h;
--                    dcc_note_state_slot(i_cpu);
-+                    dcc_note_state_slot(i_cpu, strcmp(h->hostname, "localhost") == 0 ? DCC_LOCAL : DCC_REMOTE);
-                     return 0;
-                 } else if (ret == EXIT_BUSY) {
-                     continue;
-@@ -192,6 +194,6 @@
-     int ret;
-     struct dcc_hostdef *chosen;
-     ret = dcc_lock_one(dcc_hostdef_local_cpp, &chosen, cpu_lock_fd);
--    dcc_note_state(DCC_PHASE_CPP, NULL, chosen->hostname);
-+    dcc_note_state(DCC_PHASE_CPP, NULL, chosen->hostname, DCC_LOCAL);
-     return ret;
- }
---- a/source/src/remote.c
-+++ b/source/src/remote.c
-@@ -99,7 +99,7 @@
-     int ret;
- 
-     if (cpp_pid) {
--        dcc_note_state(DCC_PHASE_CPP, NULL, NULL);
-+        dcc_note_state(DCC_PHASE_CPP, NULL, NULL, DCC_LOCAL);
-         /* Wait for cpp to finish (if not already done), check the
-          * result, then send the .i file */
- 
-@@ -210,7 +210,7 @@
-         rs_log_warning("gettimeofday failed");
- 
-     dcc_note_execution(host, argv);
--    dcc_note_state(DCC_PHASE_CONNECT, input_fname, host->hostname);
-+    dcc_note_state(DCC_PHASE_CONNECT, input_fname, host->hostname, DCC_REMOTE);
- 
-     /* For ssh support, we need to allow for separate fds writing to and
-      * reading from the network, because our connection to the ssh client may
-@@ -220,7 +220,7 @@
-     if ((ret = dcc_remote_connect(host, &to_net_fd, &from_net_fd, &ssh_pid)))
-         goto out;
- 
--    dcc_note_state(DCC_PHASE_SEND, NULL, NULL);
-+    dcc_note_state(DCC_PHASE_SEND, NULL, NULL, DCC_REMOTE);
- 
-     if (host->cpp_where == DCC_CPP_ON_SERVER) {
-         if ((ret = dcc_send_header(to_net_fd, argv, host))) {
-@@ -265,7 +265,7 @@
-     /* OK, now all of the source has at least made it into the
-      * client's TCP transmission queue, sometime soon the server will
-      * start compiling it.  */
--    dcc_note_state(DCC_PHASE_COMPILE, NULL, host->hostname);
-+    dcc_note_state(DCC_PHASE_COMPILE, NULL, host->hostname, DCC_REMOTE);
- 
-     /* If cpp failed, just abandon the connection, without trying to
-      * receive results. */
+---
+ source/src/clirpc.c  |    2 +-
+ source/src/compile.c |    2 +-
+ source/src/remote.c  |    8 +++----
+ source/src/state.c   |   57 ++++++++++++++++++++++++++++++++++++++++----------
+ source/src/state.h   |   10 +++++++--
+ source/src/where.c   |    8 ++++---
+ 6 files changed, 65 insertions(+), 22 deletions(-)
+
+diff --git a/source/src/clirpc.c b/source/src/clirpc.c
+index bacbfad..a767f12 100644
 --- a/source/src/clirpc.c
 +++ b/source/src/clirpc.c
-@@ -160,7 +160,7 @@
+@@ -160,7 +160,7 @@ int dcc_retrieve_results(int net_fd,
  
      /* We've started to see the response, so the server is done
       * compiling. */
@@ -83,9 +24,11 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
  
      if ((ret = dcc_r_cc_status(net_fd, status)))
          return ret;
+diff --git a/source/src/compile.c b/source/src/compile.c
+index 2fc60b7..1be420e 100644
 --- a/source/src/compile.c
 +++ b/source/src/compile.c
-@@ -355,7 +355,7 @@
+@@ -355,7 +355,7 @@ static int dcc_compile_local(char *argv[],
      int status;
  
      dcc_note_execution(dcc_hostdef_local, argv);
@@ -94,6 +37,48 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
  
      /* We don't do any redirection of file descriptors when running locally,
       * so if for example cpp is being used in a pipeline we should be fine. */
+diff --git a/source/src/remote.c b/source/src/remote.c
+index f06a365..64acdcc 100644
+--- a/source/src/remote.c
++++ b/source/src/remote.c
+@@ -99,7 +99,7 @@ static int dcc_wait_for_cpp(pid_t cpp_pid,
+     int ret;
+ 
+     if (cpp_pid) {
+-        dcc_note_state(DCC_PHASE_CPP, NULL, NULL);
++        dcc_note_state(DCC_PHASE_CPP, NULL, NULL, DCC_LOCAL);
+         /* Wait for cpp to finish (if not already done), check the
+          * result, then send the .i file */
+ 
+@@ -210,7 +210,7 @@ int dcc_compile_remote(char **argv,
+         rs_log_warning("gettimeofday failed");
+ 
+     dcc_note_execution(host, argv);
+-    dcc_note_state(DCC_PHASE_CONNECT, input_fname, host->hostname);
++    dcc_note_state(DCC_PHASE_CONNECT, input_fname, host->hostname, DCC_REMOTE);
+ 
+     /* For ssh support, we need to allow for separate fds writing to and
+      * reading from the network, because our connection to the ssh client may
+@@ -220,7 +220,7 @@ int dcc_compile_remote(char **argv,
+     if ((ret = dcc_remote_connect(host, &to_net_fd, &from_net_fd, &ssh_pid)))
+         goto out;
+ 
+-    dcc_note_state(DCC_PHASE_SEND, NULL, NULL);
++    dcc_note_state(DCC_PHASE_SEND, NULL, NULL, DCC_REMOTE);
+ 
+     if (host->cpp_where == DCC_CPP_ON_SERVER) {
+         if ((ret = dcc_send_header(to_net_fd, argv, host))) {
+@@ -265,7 +265,7 @@ int dcc_compile_remote(char **argv,
+     /* OK, now all of the source has at least made it into the
+      * client's TCP transmission queue, sometime soon the server will
+      * start compiling it.  */
+-    dcc_note_state(DCC_PHASE_COMPILE, NULL, host->hostname);
++    dcc_note_state(DCC_PHASE_COMPILE, NULL, host->hostname, DCC_REMOTE);
+ 
+     /* If cpp failed, just abandon the connection, without trying to
+      * receive results. */
+diff --git a/source/src/state.c b/source/src/state.c
+index 4cf2e1e..ec24de5 100644
 --- a/source/src/state.c
 +++ b/source/src/state.c
 @@ -43,8 +43,10 @@
@@ -108,7 +93,7 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
  
  /**
   * @file
-@@ -182,7 +184,7 @@
+@@ -182,7 +184,7 @@ static int dcc_write_state(int fd)
      /* Write out as one big blob.  fd is positioned at the start of
       * the file. */
  
@@ -117,7 +102,7 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
          return ret;
  
      return 0;
-@@ -199,34 +201,38 @@
+@@ -199,34 +201,38 @@ static int dcc_write_state(int fd)
   **/
  int dcc_note_state(enum dcc_phase state,
                     const char *source_file,
@@ -163,14 +148,13 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
  
      rs_trace("note state %d, file \"%s\", host \"%s\"",
               state,
-@@ -251,7 +257,36 @@
+@@ -251,7 +257,36 @@ int dcc_note_state(enum dcc_phase state,
  }
  
  
 -void dcc_note_state_slot(int slot)
 +void dcc_note_state_slot(int slot, enum dcc_host target)
- {
--    my_state.slot = slot;
++{
 +	if (direct_my_state(target))
 +		my_state->slot = slot;
 +}
@@ -182,7 +166,8 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
 +	Return 'my_state' pointer.
 +**/
 +static struct dcc_task_state *direct_my_state(const enum dcc_host target)
-+{
+ {
+-    my_state.slot = slot;
 +	switch (target)
 +	{
 +		case DCC_LOCAL:
@@ -202,9 +187,11 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
 +
 +	return my_state;
  }
+diff --git a/source/src/state.h b/source/src/state.h
+index 00a2371..d416857 100644
 --- a/source/src/state.h
 +++ b/source/src/state.h
-@@ -46,10 +46,16 @@
+@@ -46,10 +46,16 @@ enum dcc_phase {
      DCC_PHASE_DONE              /**< MUST be last */
  };
  
@@ -222,7 +209,7 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
  void dcc_remove_state_file (void);
  
  
-@@ -83,7 +89,7 @@
+@@ -83,7 +89,7 @@ struct dcc_task_state {
  
  const char *dcc_get_phase_name(enum dcc_phase);
  
@@ -230,4 +217,36 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=732
 +void dcc_note_state_slot(int slot, enum dcc_host target);
  
  #ifdef __cplusplus
+ }
+diff --git a/source/src/where.c b/source/src/where.c
+index b0cd6be..6e4c5dd 100644
+--- a/source/src/where.c
++++ b/source/src/where.c
+@@ -124,7 +124,9 @@ static void dcc_lock_pause(void)
+ 
+     unsigned pause_time = 1;
+ 
+-    dcc_note_state(DCC_PHASE_BLOCKED, NULL, NULL);
++	/*	This call to dcc_note_state() is made before the host is known, so it
++		does not make sense and does nothing useful as far as I can tell.	*/
++    /*	dcc_note_state(DCC_PHASE_BLOCKED, NULL, NULL, DCC_UNKNOWN);	*/
+ 
+     rs_trace("nothing available, sleeping %us...", pause_time);
+ 
+@@ -159,7 +161,7 @@ static int dcc_lock_one(struct dcc_hostdef *hostlist,
+ 
+                 if (ret == 0) {
+                     *buildhost = h;
+-                    dcc_note_state_slot(i_cpu);
++                    dcc_note_state_slot(i_cpu, strcmp(h->hostname, "localhost") == 0 ? DCC_LOCAL : DCC_REMOTE);
+                     return 0;
+                 } else if (ret == EXIT_BUSY) {
+                     continue;
+@@ -192,6 +194,6 @@ int dcc_lock_local_cpp(int *cpu_lock_fd)
+     int ret;
+     struct dcc_hostdef *chosen;
+     ret = dcc_lock_one(dcc_hostdef_local_cpp, &chosen, cpu_lock_fd);
+-    dcc_note_state(DCC_PHASE_CPP, NULL, chosen->hostname);
++    dcc_note_state(DCC_PHASE_CPP, NULL, chosen->hostname, DCC_LOCAL);
+     return ret;
  }

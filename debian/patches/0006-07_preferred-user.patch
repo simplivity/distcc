@@ -1,0 +1,21 @@
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 07_preferred-user
+
+---
+ source/src/setuid.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/source/src/setuid.c b/source/src/setuid.c
+index 1a02680..f60ac1a 100644
+--- a/source/src/setuid.c
++++ b/source/src/setuid.c
+@@ -35,7 +35,7 @@
+ #include "exitcode.h"
+ 
+ 
+-const char *opt_user = "distcc";
++const char *opt_user = "distccd";
+ 
+ 
+ /**

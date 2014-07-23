@@ -1,0 +1,40 @@
+From: Kevin Pease <kevin.pease@simplivity.com>
+Date: Wed, 23 Jul 2014 17:45:33 -0400
+Subject: svt01-disable-tcp-corking-over-ssh
+
+==============================================================================
+
+Resolves an issue where TCP Corking was spewing errors and warnings into the
+build log that were spurious.  It shouldn't be trying to cork TCP connections
+when we're connecting over SSH.
+---
+ source/Makefile.in |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/source/Makefile.in b/source/Makefile.in
+index 3666535..371f8b8 100644
+--- a/source/Makefile.in
++++ b/source/Makefile.in
+@@ -408,6 +408,7 @@ popt_EXTRA = popt/README.popt popt/.stamp-conf.in
+ bin_PROGRAMS = \
+ 	distcc@EXEEXT@ \
+ 	distccd@EXEEXT@ \
++	distccd-bin@EXEEXT@ \
+ 	distccmon-text@EXEEXT@ \
+ 	lsdistcc@EXEEXT@ \
+ 	@GNOME_BIN@ 
+@@ -492,7 +493,13 @@ $(popt_OBJS): CFLAGS += $(POPT_CFLAGS)
+ distcc@EXEEXT@: $(distcc_obj)
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(distcc_obj) $(LIBS)
+ 
+-distccd@EXEEXT@: $(distccd_obj)
++distccd@EXEEXT@: $@
++	@ echo "Constructing wrapper script to disable attempts to cork TCP connections over SSH."
++	@ echo '#!/bin/bash' > distccd
++	@ echo 'export DISTCC_TCP_CORK=0' >> distccd
++	@ echo 'exec /usr/bin/distccd-bin $@' >> distccd
++
++distccd-bin@EXEEXT@: $(distccd_obj)
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(distccd_obj) $(LIBS)	
+ 
+ distccmon-text@EXEEXT@: $(mon_obj) src/mon-text.o

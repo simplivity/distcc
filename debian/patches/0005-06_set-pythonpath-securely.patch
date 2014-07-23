@@ -1,0 +1,21 @@
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 06_set-pythonpath-securely
+
+---
+ source/pump.in |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/source/pump.in b/source/pump.in
+index d0ceaa1..4d5cff3 100755
+--- a/source/pump.in
++++ b/source/pump.in
+@@ -285,7 +285,7 @@ StartIncludeServer() {
+     # of one asterisk) without filename expansion.
+     eval \
+       "PYTHONOPTIMIZE='$PYTHONOPTIMIZE' " \
+-      "PYTHONPATH='$pythonpath::$PYTHONPATH' " \
++      "PYTHONPATH='$pythonpath${PYTHONPATH:+:$PYTHONPATH}' " \
+       "'$PYTHON'"                       \
+          "'$include_server'"            \
+          --port "'$socket'"             \

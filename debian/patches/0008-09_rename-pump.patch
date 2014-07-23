@@ -1,18 +1,34 @@
-Description: Rename "pump" command to "distcc-pump"
- Distcc pump mode is started by a command that upstream calls "pump",
- which is already in use by another Debian package.
- .
- We rename that command to "distcc-pump" and change any references to
- it in the rest of the package.  This patch updates the references,
- the script and it's man page are renamed in debian/rules.
-Forwarded: not-needed
-Bug-Debian: http://bugs.debian.org/559196
-Bug-Debian: http://bugs.debian.org/594083
-Author: Daniel Hartwig <mandyke@gmail.com>
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 09_rename-pump
 
+---
+ source/include_server/run.py   |    2 +-
+ source/man/distcc.1            |   10 ++++-----
+ source/man/distccd.1           |    4 ++--
+ source/man/include_server.1    |   10 ++++-----
+ source/man/pump.1              |   48 ++++++++++++++++++++--------------------
+ source/src/include_server_if.c |    2 +-
+ 6 files changed, 38 insertions(+), 38 deletions(-)
+
+diff --git a/source/include_server/run.py b/source/include_server/run.py
+index 5580d68..268e8aa 100755
+--- a/source/include_server/run.py
++++ b/source/include_server/run.py
+@@ -56,7 +56,7 @@ In the include_server directory:
+   ./run.py `which pychecker` include_server.py  
+ 
+ In installed distcc-pump:
+-   # See 'pump' script.
++   # See 'distcc-pump' script.
+    $include_server_location/run.py --run_in_install include_server.py .. 
+ """
+ 
+diff --git a/source/man/distcc.1 b/source/man/distcc.1
+index db34539..b14e426 100644
 --- a/source/man/distcc.1
 +++ b/source/man/distcc.1
-@@ -134,7 +134,7 @@
+@@ -134,7 +134,7 @@ get increasing benefit with more server CPUs (up to the hundreds!).
  Wrap your build inside the pump command, here assuming 10 servers:
  
  .RS
@@ -21,7 +37,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .RE
  .SH "HOW PLAIN (NON-PUMP) DISTCC WORKS"
  distcc only ever runs the compiler and assembler remotely.  With plain distcc,
-@@ -171,7 +171,7 @@
+@@ -171,7 +171,7 @@ The compiler is then run from the path in the temporary directory that
  corresponds to the current working directory on the client.  To find and
  transmit the many hundreds of files that are often part of a single compilation,
  pump mode uses an incremental include analysis algorithm.  The include server is
@@ -30,7 +46,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  include server so that throughout the build it can answer include queries by
  distcc commands.
  
-@@ -534,7 +534,7 @@
+@@ -534,7 +534,7 @@ Enables LZO compression for this TCP or SSH host.
  .TP
  .B ,cpp
  Enables distcc-pump mode for this host.  Note: the build command must be 
@@ -39,7 +55,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .TP
  .B --randomize
  Randomize the order of the host list before execution.
-@@ -884,7 +884,7 @@
+@@ -884,7 +884,7 @@ Other known bugs may be documented on
  distcc was written by Martin Pool <mbp@sourcefrog.net>, with the
  co-operation of many scholars including Wayne Davison, Frerich Raabe,
  Dimitri Papadopoulos and others noted in the NEWS file.  Please report
@@ -48,7 +64,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .SH "LICENCE"
  You are free to use distcc.  distcc (including this manual) may be
  copied, modified or distributed only under the terms of the GNU
-@@ -892,7 +892,7 @@
+@@ -892,7 +892,7 @@ General Public Licence version 2 or later.  distcc comes with
  absolutely no warrany.  A copy of the GPL is included in the file
  COPYING.
  .SH "SEE ALSO"
@@ -57,6 +73,77 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  \fBmake\fR(1), and  \fBccache\fR(1).
  .I http://code.google.com/p/distcc/
  .I http://ccache.samba.org/
+diff --git a/source/man/distccd.1 b/source/man/distccd.1
+index c855a03..89ea9a0 100644
+--- a/source/man/distccd.1
++++ b/source/man/distccd.1
+@@ -279,7 +279,7 @@ On Linux, turn on the TCP_DEFER_ACCEPT socket option.  Defaults to on.
+ Directory for temporary files such as preprocessor output.  By default
+ /tmp/ is used.
+ .SH "SEE ALSO"
+-\fBdistcc\fR(1), \fBpump\fR(1), \fBinclude_server\fR(1), \fBgcc\fR(1),
++\fBdistcc\fR(1), \fBdistcc-pump\fR(1), \fBinclude_server\fR(1), \fBgcc\fR(1),
+ \fBmake\fR(1), and  \fBccache\fR(1)
+ .I http://code.google.com/p/distcc/
+ .SH "BUGS"
+@@ -302,5 +302,5 @@ COPYING.
+ distcc was written by Martin Pool <mbp@sourcefrog.net>, with the
+ co-operation of many scholars including Wayne Davison, Frerich Raabe,
+ Dimitri Papadopoulos and others noted in the NEWS file. 
+-See \fBpump\fR(1) for the authors of pump mode.
++See \fBdistcc-pump\fR(1) for the authors of pump mode.
+ Please report bugs to <distcc@lists.samba.org>.
+diff --git a/source/man/include_server.1 b/source/man/include_server.1
+index 9a10dde..4fa0f14 100644
+--- a/source/man/include_server.1
++++ b/source/man/include_server.1
+@@ -14,7 +14,7 @@ clients about what files to include in C/C++ compilations. The include_server.py
+ command itself terminates as soon as the include server has been spawned.
+ .PP
+ The INCLUDE_SERVER_PORT argument is the name of a socket used for all
+-communication between distcc clients and the include server.  The \fBpump\fR(1)
++communication between distcc clients and the include server.  The \fBdistcc-pump\fR(1)
+ command is responsible for creating the socket location, for passing it to this
+ script, and for passing it to all distcc clients via the environment variable
+ named INCLUDE_SERVER_PORT. 
+@@ -71,7 +71,7 @@ all.  Note: warnings must be enabled with at least -d1.
+ .TP
+ .B --pid_file FILEPATH
+ The pid of the include server is written to file FILEPATH. This allows a script
+-such a \fBpump\fR to tear down the include server.
++such a \fBdistcc-pump\fR to tear down the include server.
+ .TP                             
+ .B -s, --statistics
+ Print information to stdout about include analysis.
+@@ -81,7 +81,7 @@ Flush stat caches when the timestamp of any filepath in LIST changes or the
+ filepath comes in or out of existence.  LIST is a colon separated string of
+ filepaths, possibly containing simple globs (as allowed by Python's glob
+ module). Print a warning whenever such a change happens (if warnings are
+-enabled). This option allows limited exceptions to distcc_pump's normal
++enabled). This option allows limited exceptions to distcc-pump's normal
+ assumption that source files are not modified during the build.
+ .TP
+ .B -t, --time  
+@@ -147,7 +147,7 @@ client.  The include server gives up analyzing the include closure. The distcc
+ client cannot use pump-mode.
+ 
+ To overcome this problem in a not always reliable way, set the environment
+-variable INCLUDE_SERVER_ARGS='--unsafe_absolute_includes' when invoking the pump
++variable INCLUDE_SERVER_ARGS='--unsafe_absolute_includes' when invoking the distcc-pump
+ script to pass the --unsafe_absolute_includes option to the include server.
+ .TP
+ .B Warning: Absolute filepath ... was IGNORED
+@@ -185,7 +185,7 @@ by the demotion message:
+ .B See the Distcc Discrepancy Symptoms section in the include_server(1) man 
+ .B page.
+ 
+-The pump script issues this message at the end of the build. This means that for
++The distcc-pump script issues this message at the end of the build. This means that for
+ at least one distcc invocation a local compilation succeeded after the remote
+ compilation failed. Each distcc invocation for which such a discrepancy occurred
+ in turn also issues a message such as:
+diff --git a/source/man/pump.1 b/source/man/pump.1
+index 11da428..d57e9bc 100644
 --- a/source/man/pump.1
 +++ b/source/man/pump.1
 @@ -1,23 +1,23 @@
@@ -88,7 +175,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  is part of distcc.
  It is used for distcc's pump mode.
  Distcc's pump mode accelerates remote compilation with distcc
-@@ -36,7 +36,7 @@
+@@ -36,7 +36,7 @@ section.
  .PP
  The simplest usage is the form
  .RS
@@ -97,7 +184,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .I COMMAND [ARG]
  \& ...
  .RE
-@@ -45,7 +45,7 @@
+@@ -45,7 +45,7 @@ optionally run
  .B lsdistcc
  to compute the distcc host list;
  set some auxiliary environment variables;
@@ -106,7 +193,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  script;
  execute
  .I COMMAND
-@@ -59,23 +59,23 @@
+@@ -59,23 +59,23 @@ is typically a parallel build command, such as
  "make -j80", that will do many concurrent invocations of distcc.
  .PP
  An alternative way of invoking
@@ -139,7 +226,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .RE
  .PP
  Note that distcc's pump-mode assumes that sources files will not be
-@@ -84,13 +84,13 @@
+@@ -84,13 +84,13 @@ the lifetime of the include server, so modifying source files during a build
  may cause inconsistent results.
  .SH "INVOKING LSDISTCC"
  When invoked in either the simple "
@@ -156,7 +243,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  script will invoke
  .B lsdistcc
  \& whenever DISTCC_POTENTIAL_HOSTS is set and DISTCC_HOSTS isn't.
-@@ -109,12 +109,12 @@
+@@ -109,12 +109,12 @@ Starts an include server, and outputs the environment variable settings
  needed for
  .BR distcc(1)
  or
@@ -171,7 +258,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .SH "ENVIRONMENT VARIABLES"
  The following environment variables are all optional.
  .TP
-@@ -154,7 +154,7 @@
+@@ -154,7 +154,7 @@ Extra arguments to pass to the include server.
  PYTHONOPTIMIZE
  If set to "", then Python optimization is disabled.
  .SH "EXAMPLE"
@@ -180,7 +267,7 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  .SH "BUGS"
  .\" TODO:
  .\" Fix inconsistency between BUGS section and bug reporting instructions
-@@ -163,11 +163,11 @@
+@@ -163,11 +163,11 @@ If you think you have found a distcc bug, please see the file
  .I reporting-bugs.txt
  in the documentation directory for information on how to report it.
  .SH "AUTHORS"
@@ -194,85 +281,11 @@ Author: Daniel Hartwig <mandyke@gmail.com>
  is part of distcc.
  You are free to use distcc.  distcc (including this manual) may be
  copied, modified or distributed only under the terms of the GNU
---- a/source/man/distccd.1
-+++ b/source/man/distccd.1
-@@ -279,7 +279,7 @@
- Directory for temporary files such as preprocessor output.  By default
- /tmp/ is used.
- .SH "SEE ALSO"
--\fBdistcc\fR(1), \fBpump\fR(1), \fBinclude_server\fR(1), \fBgcc\fR(1),
-+\fBdistcc\fR(1), \fBdistcc-pump\fR(1), \fBinclude_server\fR(1), \fBgcc\fR(1),
- \fBmake\fR(1), and  \fBccache\fR(1)
- .I http://code.google.com/p/distcc/
- .SH "BUGS"
-@@ -302,5 +302,5 @@
- distcc was written by Martin Pool <mbp@sourcefrog.net>, with the
- co-operation of many scholars including Wayne Davison, Frerich Raabe,
- Dimitri Papadopoulos and others noted in the NEWS file. 
--See \fBpump\fR(1) for the authors of pump mode.
-+See \fBdistcc-pump\fR(1) for the authors of pump mode.
- Please report bugs to <distcc@lists.samba.org>.
---- a/source/man/include_server.1
-+++ b/source/man/include_server.1
-@@ -14,7 +14,7 @@
- command itself terminates as soon as the include server has been spawned.
- .PP
- The INCLUDE_SERVER_PORT argument is the name of a socket used for all
--communication between distcc clients and the include server.  The \fBpump\fR(1)
-+communication between distcc clients and the include server.  The \fBdistcc-pump\fR(1)
- command is responsible for creating the socket location, for passing it to this
- script, and for passing it to all distcc clients via the environment variable
- named INCLUDE_SERVER_PORT. 
-@@ -71,7 +71,7 @@
- .TP
- .B --pid_file FILEPATH
- The pid of the include server is written to file FILEPATH. This allows a script
--such a \fBpump\fR to tear down the include server.
-+such a \fBdistcc-pump\fR to tear down the include server.
- .TP                             
- .B -s, --statistics
- Print information to stdout about include analysis.
-@@ -81,7 +81,7 @@
- filepath comes in or out of existence.  LIST is a colon separated string of
- filepaths, possibly containing simple globs (as allowed by Python's glob
- module). Print a warning whenever such a change happens (if warnings are
--enabled). This option allows limited exceptions to distcc_pump's normal
-+enabled). This option allows limited exceptions to distcc-pump's normal
- assumption that source files are not modified during the build.
- .TP
- .B -t, --time  
-@@ -147,7 +147,7 @@
- client cannot use pump-mode.
- 
- To overcome this problem in a not always reliable way, set the environment
--variable INCLUDE_SERVER_ARGS='--unsafe_absolute_includes' when invoking the pump
-+variable INCLUDE_SERVER_ARGS='--unsafe_absolute_includes' when invoking the distcc-pump
- script to pass the --unsafe_absolute_includes option to the include server.
- .TP
- .B Warning: Absolute filepath ... was IGNORED
-@@ -185,7 +185,7 @@
- .B See the Distcc Discrepancy Symptoms section in the include_server(1) man 
- .B page.
- 
--The pump script issues this message at the end of the build. This means that for
-+The distcc-pump script issues this message at the end of the build. This means that for
- at least one distcc invocation a local compilation succeeded after the remote
- compilation failed. Each distcc invocation for which such a discrepancy occurred
- in turn also issues a message such as:
---- a/source/include_server/run.py
-+++ b/source/include_server/run.py
-@@ -56,7 +56,7 @@
-   ./run.py `which pychecker` include_server.py  
- 
- In installed distcc-pump:
--   # See 'pump' script.
-+   # See 'distcc-pump' script.
-    $include_server_location/run.py --run_in_install include_server.py .. 
- """
- 
+diff --git a/source/src/include_server_if.c b/source/src/include_server_if.c
+index f7ebadf..88b51e1 100644
 --- a/source/src/include_server_if.c
 +++ b/source/src/include_server_if.c
-@@ -78,7 +78,7 @@
+@@ -78,7 +78,7 @@ int dcc_talk_to_include_server(char **argv, char ***files)
      include_server_port = getenv("INCLUDE_SERVER_PORT");
      if (include_server_port == NULL) {
          rs_log_warning("INCLUDE_SERVER_PORT not set - "

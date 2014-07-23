@@ -1,11 +1,16 @@
-Description: Remove duplicate hosts from the zeroconf list
-Bug: http://code.google.com/p/distcc/issues/detail?id=43
-Bug-Ubuntu: https://bugs.launchpad.net/bugs/809534
-Origin: upstream, http://code.google.com/p/distcc/source/detail?r=673
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: r673_zeroconf-nodups
 
---- a/source/src/zeroconf.c	(revision 672)
-+++ b/source/src/zeroconf.c	(revision 673)
-@@ -129,6 +129,8 @@
+---
+ source/src/zeroconf.c |   24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/source/src/zeroconf.c b/source/src/zeroconf.c
+index df41d96..a251426 100644
+--- a/source/src/zeroconf.c
++++ b/source/src/zeroconf.c
+@@ -129,6 +129,8 @@ static time_t fd_last_used(int fd, time_t clip_time) {
      return now - ft;
  }
  
@@ -14,7 +19,7 @@ Origin: upstream, http://code.google.com/p/distcc/source/detail?r=673
  /* Write host data to host file */
  static int write_hosts(struct daemon_data *d) {
      struct host *h;
-@@ -152,6 +154,8 @@
+@@ -152,6 +154,8 @@ static int write_hosts(struct daemon_data *d) {
          return -1;
      }
  
@@ -23,7 +28,7 @@ Origin: upstream, http://code.google.com/p/distcc/source/detail?r=673
      for (h = d->hosts; h; h = h->next) {
          char t[256], a[AVAHI_ADDRESS_STR_MAX];
  
-@@ -190,6 +194,26 @@
+@@ -190,6 +194,26 @@ static void free_host(struct host *h) {
      free(h);
  }
  

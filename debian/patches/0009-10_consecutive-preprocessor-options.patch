@@ -1,0 +1,21 @@
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 10_consecutive-preprocessor-options
+
+---
+ source/src/arg.c |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/source/src/arg.c b/source/src/arg.c
+index 5e06675..1b0dbae 100644
+--- a/source/src/arg.c
++++ b/source/src/arg.c
+@@ -515,6 +515,8 @@ int dcc_expand_preprocessor_options(char ***argv_ptr) {
+             }
+             free(argv);
+             *argv_ptr = argv = new_argv;
++            i += extra_args - 1;
++            argc += extra_args - 1;
+         }
+     }
+     return 0;

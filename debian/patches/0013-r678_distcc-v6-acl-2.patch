@@ -1,12 +1,16 @@
-Description: IPv6 support for access control
-   - Implements IPv6 support for access control.
-   - Restrict zeroconf advertisements to IPv4 if
-     RFC2553 support isn't enabled.
-   - Modifies the non-RFC2553 code to use inet_aton()
-     instead of the RFC2553-specific inet_pton().
-Author: Bob Ham <rah@bash.sh>
-Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: r678_distcc-v6-acl-2
 
+---
+ source/src/access.c       |  319 ++++++++++++++++++++++++++++++++++++++++-----
+ source/src/access.h       |   27 +++-
+ source/src/srvnet.c       |   30 +----
+ source/src/zeroconf-reg.c |    7 +-
+ 4 files changed, 314 insertions(+), 69 deletions(-)
+
+diff --git a/source/src/access.c b/source/src/access.c
+index 70f51c7..bdc6337 100644
 --- a/source/src/access.c
 +++ b/source/src/access.c
 @@ -37,6 +37,7 @@
@@ -28,7 +32,7 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
 -static const in_addr_t allones = 0xffffffffUL;
 +static const uint32_t allones = 0xffffffffUL;
 +static const uint8_t allones8 = 0xffU;
- 
++
 +/**
 + * Split a "HOST/BITS" mask specification into HOST and BITS.
 + *
@@ -63,8 +67,8 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
 +    
 +    return 0;
 +}
- 
- /**
++
++/**
 + * Set a dcc_address_t to a full mask.
 + **/
 +static void set_allones(dcc_address_t *addr)
@@ -75,9 +79,9 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
 +    memset(&addr->addr, allones8, sizeof(struct in6_addr));
 +#endif
 +}
-+
-+
-+/**
+ 
+ 
+ /**
 + * Set a 32-bit address, @p addr, to a mask of @p mask_size bits.
 + **/
 +static inline void set_mask_inet(struct in_addr *addr, int mask_bits) {
@@ -273,9 +277,9 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
 +                 (long) client->s_addr,
 +                 (long) value->s_addr,
 +                 (long) mask->s_addr);
-         return EXIT_ACCESS_DENIED;
-     }
- }
++        return EXIT_ACCESS_DENIED;
++    }
++}
 +
 +#ifdef ENABLE_RFC2553
 +/**
@@ -378,9 +382,11 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
 +    } else {
 +        rs_log_notice("access denied from unsupported address family %d",
 +                      client->sa_family);
-+        return EXIT_ACCESS_DENIED;
-+    }
-+}
+         return EXIT_ACCESS_DENIED;
+     }
+ }
+diff --git a/source/src/access.h b/source/src/access.h
+index 50eb93d..e6bd69c 100644
 --- a/source/src/access.h
 +++ b/source/src/access.h
 @@ -20,16 +20,31 @@
@@ -421,9 +427,11 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
 +    dcc_address_t addr, mask;
      struct dcc_allow_list *next;
  };
+diff --git a/source/src/srvnet.c b/source/src/srvnet.c
+index 0039367..383a679 100644
 --- a/source/src/srvnet.c
 +++ b/source/src/srvnet.c
-@@ -252,35 +252,9 @@
+@@ -252,35 +252,9 @@ int dcc_check_client(struct sockaddr *psa,
      }
  
      for (l = allowed; l; l = l->next) {
@@ -461,9 +469,11 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
      }
  
      if (ret != 0) {
+diff --git a/source/src/zeroconf-reg.c b/source/src/zeroconf-reg.c
+index 2e8edc5..8511315 100644
 --- a/source/src/zeroconf-reg.c
 +++ b/source/src/zeroconf-reg.c
-@@ -57,6 +57,11 @@
+@@ -57,6 +57,11 @@ struct context {
  static void publish_reply(AvahiEntryGroup *g, AvahiEntryGroupState state, void *userdata);
  
  static void register_stuff(struct context *ctx) {
@@ -475,7 +485,7 @@ Applied-Upstream: 3.2, http://code.google.com/p/distcc/source/detail?r=678
  
      if (!ctx->group) {
  
-@@ -79,7 +84,7 @@
+@@ -79,7 +84,7 @@ static void register_stuff(struct context *ctx) {
          if (avahi_entry_group_add_service(
                      ctx->group,
                      AVAHI_IF_UNSPEC,

@@ -1,3 +1,7 @@
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 04_fix_pumps_include_server_path.dpatch
+
 #! /bin/sh -e
 ## 04_fix_pumps_include_server_path.dpatch by Carsten Wolff <carsten@wolffcarsten.de>
 ## Update to use private module path by Daniel Hartwig <mandyke@gmail.com>
@@ -17,9 +21,15 @@ esac
 exit 0
 
 @DPATCH@
---- distcc-3.1.orig/source/Makefile.in
-+++ distcc-3.1/source/Makefile.in
-@@ -1049,7 +1049,7 @@
+---
+ source/Makefile.in |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/source/Makefile.in b/source/Makefile.in
+index a81865b..0bf8181 100644
+--- a/source/Makefile.in
++++ b/source/Makefile.in
+@@ -1049,7 +1049,7 @@ install-include-server: include-server pump
  	        --build-base="$(include_server_builddir)" \
  	        --build-temp="$(include_server_builddir)" \
  	      install 					\
@@ -28,7 +38,7 @@ exit 0
  	         --record="$(include_server_builddir)/install.log.pre" \
  	         --root="$$DESTDIR"                     \
  	    || exit 1; \
-@@ -1061,7 +1061,7 @@
+@@ -1061,7 +1061,7 @@ install-include-server: include-server pump
  	    cp -f "$(include_server_builddir)/install.log" "$(PYTHON_INSTALL_RECORD)"; \
  	  fi; \
  	  $(mkinstalldirs) "$(DESTDIR)$(bindir)" && \

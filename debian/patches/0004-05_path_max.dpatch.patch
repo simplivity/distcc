@@ -1,3 +1,7 @@
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 05_path_max.dpatch
+
 #! /bin/sh /usr/share/dpatch/dpatch-run
 ## 05_path_max.dpatch by Jeremie Koenig <jk@jk.fr.eu.org>
 ##
@@ -5,21 +9,16 @@
 ## DP: Don't rely on PATH_MAX being defined.
 
 @DPATCH@
+---
+ source/src/stringmap.c |    4 ++++
+ source/src/zeroconf.c  |   13 ++++++++++---
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/source/src/stringmap.c b/source/src/stringmap.c
 index 924e18c..aac2170 100644
 --- a/source/src/stringmap.c
 +++ b/source/src/stringmap.c
-@@ -20,24 +20,28 @@
- 
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
- #include <limits.h>
- #include <assert.h>
- #include "stringmap.h"
- 
- #ifndef NULL
+@@ -29,6 +29,10 @@
  #define NULL 0
  #endif
  
@@ -30,29 +29,11 @@ index 924e18c..aac2170 100644
  /* Load the given list of strings into the key/value map.
   * The key for each string is the numFinalWordsToMatch of the string;
   * the value for each string is the entire string.
-  * FIXME: doesn't work for utf-8 strings, since it scans raw chars for /
-  */
- stringmap_t *stringmap_load(const char *filename, int numFinalWordsToMatch)
- {
-     stringmap_t *result = calloc(1, sizeof(*result));
-     FILE *fp = fopen(filename, "r");
-     char buf[2*PATH_MAX];
-     int n;
- 
 diff --git a/source/src/zeroconf.c b/source/src/zeroconf.c
 index 414ddc4..59f0dab 100644
 --- a/source/src/zeroconf.c
 +++ b/source/src/zeroconf.c
-@@ -505,38 +505,43 @@ static int get_zeroconf_dir(char **dir_ret) {
-         *dir_ret = cached;
-         return 0;
-     } else {
-         ret = dcc_get_subdir("zeroconf", dir_ret);
-         if (ret == 0)
-             cached = *dir_ret;
-         return ret;
-     }
- }
+@@ -514,7 +514,7 @@ static int get_zeroconf_dir(char **dir_ret) {
  
  /* Get the host list from zeroconf */
  int dcc_zeroconf_add_hosts(struct dcc_hostdef **ret_list, int *ret_nhosts, int n_slots, struct dcc_hostdef **ret_prev) {
@@ -61,11 +42,7 @@ index 414ddc4..59f0dab 100644
      int lock_fd = -1, host_fd = -1;
      int fork_daemon = 0;
      int r = -1;
-     char *dir;
-     struct stat st;
- 
-     if (get_zeroconf_dir(&dir) != 0) {
-         rs_log_crit("failed to get zeroconf dir.\n");
+@@ -526,8 +526,13 @@ int dcc_zeroconf_add_hosts(struct dcc_hostdef **ret_list, int *ret_nhosts, int n
          goto finish;
      }
  
@@ -81,25 +58,7 @@ index 414ddc4..59f0dab 100644
  
      /* Open lock file */
      if ((lock_fd = open(lock_file, O_RDWR|O_CREAT, 0666)) < 0) {
-         rs_log_crit("open('%s') failed: %s\n", lock_file, strerror(errno));
-         goto finish;
-     }
- 
-     /* Try to lock the lock file */
-     if (generic_lock(lock_fd, 1, 1, 0) >= 0) {
-         /* The lock succeeded => there's no daemon running yet! */
-         fork_daemon = 1;
-         generic_lock(lock_fd, 1, 0, 0);
-@@ -621,16 +626,18 @@ int dcc_zeroconf_add_hosts(struct dcc_hostdef **ret_list, int *ret_nhosts, int n
-         rs_log_crit("failed to parse host file.\n");
-         goto finish;
-     }
- 
-     r = 0;
- 
- finish:
-     if (host_fd >= 0) {
-         generic_lock(host_fd, 0, 0, 1);
+@@ -630,6 +635,8 @@ finish:
          close(host_fd);
      }
  
@@ -108,4 +67,3 @@ index 414ddc4..59f0dab 100644
      free(s);
  
      return r;
- }

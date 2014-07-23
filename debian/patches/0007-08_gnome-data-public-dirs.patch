@@ -1,18 +1,16 @@
-Description: Install distccmon-gnome desktop, icon files to public dirs
- These files are currently put in /usr/share/distcc and as a result
- the program is not integrated in to the applications menu.
- .
- This patch puts them in /usr/share/applications and /usr/share/pixmaps
- respectively.
- .
- Ideally those paths should be configurable at build time.
-Author: Daniel Hartwig <mandyke@gmail.com>
-Bug: http://code.google.com/p/distcc/issues/detail?id=111
-Bug-Ubuntu: https://bugs.launchpad.net/bugs/512288
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 08_gnome-data-public-dirs
 
+---
+ source/Makefile.in |   33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
+
+diff --git a/source/Makefile.in b/source/Makefile.in
+index 0bf8181..f39e2d1 100644
 --- a/source/Makefile.in
 +++ b/source/Makefile.in
-@@ -113,7 +113,8 @@
+@@ -113,7 +113,8 @@ dist_files =							\
  	$(conf_files)                                           \
  	$(default_files)                                        \
  	$(dist_extra)						\
@@ -22,7 +20,7 @@ Bug-Ubuntu: https://bugs.launchpad.net/bugs/512288
  
  dist_dirs = m4 include_server/test_data
  
-@@ -373,8 +374,11 @@
+@@ -373,8 +374,11 @@ man_HTML = man/distcc_1.html man/distccd_1.html man/distccmon_text_1.html \
  	   man/pump_1.html man/include_server_1.html man/distccmon-gnome_1.html
  MEN = $(man1_MEN)
  
@@ -36,7 +34,7 @@ Bug-Ubuntu: https://bugs.launchpad.net/bugs/512288
  
  popt_OBJS=popt/findme.o  popt/popt.o  popt/poptconfig.o \
  	popt/popthelp.o popt/poptparse.o
-@@ -1085,10 +1089,14 @@
+@@ -1085,10 +1089,14 @@ install-example: $(example_DOCS)
  	$(INSTALL_DATA) "$(srcdir)/$$p" "$(DESTDIR)$(docdir)/example" || exit 1; \
  	done
  
@@ -55,7 +53,7 @@ Bug-Ubuntu: https://bugs.launchpad.net/bugs/512288
  	done
  
  install-conf: $(conf_files) $(default_files)
-@@ -1168,11 +1176,16 @@
+@@ -1168,11 +1176,16 @@ uninstall-example:
  	-rmdir "$(DESTDIR)$(docdir)/example"
  
  uninstall-gnome-data:

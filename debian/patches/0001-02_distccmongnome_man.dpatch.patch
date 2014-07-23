@@ -1,3 +1,7 @@
+From: Daniel Hartwig <mandyke@gmail.com>
+Date: Wed, 23 Jul 2014 17:42:14 -0400
+Subject: 02_distccmongnome_man.dpatch
+
 #! /bin/sh -e
 ## 02_distccmongnome_man.dpatch by Carsten Wolff <carsten@wolffcarsten.de>
 
@@ -16,8 +20,33 @@ esac
 exit 0
 
 @DPATCH@
---- distcc-2.18.3.orig/source/man/distccmon-gnome.1
-+++ distcc-2.18.3/source/man/distccmon-gnome.1
+---
+ source/Makefile.in           |    4 +-
+ source/man/distccmon-gnome.1 |   93 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 95 insertions(+), 2 deletions(-)
+ create mode 100644 source/man/distccmon-gnome.1
+
+diff --git a/source/Makefile.in b/source/Makefile.in
+index 073482e..cf83189 100644
+--- a/source/Makefile.in
++++ b/source/Makefile.in
+@@ -368,9 +368,9 @@ default_dir = packaging/RedHat/default
+ default_files = $(default_dir)/distcc
+ 
+ man1_MEN = man/distcc.1 man/distccd.1 man/distccmon-text.1 \
+-           man/pump.1 man/include_server.1
++           man/pump.1 man/include_server.1 man/distccmon-gnome.1
+ man_HTML = man/distcc_1.html man/distccd_1.html man/distccmon_text_1.html \
+-	   man/pump_1.html man/include_server_1.html
++	   man/pump_1.html man/include_server_1.html man/distccmon-gnome_1.html
+ MEN = $(man1_MEN)
+ 
+ gnome_data = gnome/distccmon-gnome-icon.png	\
+diff --git a/source/man/distccmon-gnome.1 b/source/man/distccmon-gnome.1
+new file mode 100644
+index 0000000..2cac6b5
+--- /dev/null
++++ b/source/man/distccmon-gnome.1
 @@ -0,0 +1,93 @@
 +.\"
 +.TH Distccmon-gnome 1 "March 1, 2005"
@@ -112,17 +141,3 @@ exit 0
 +Distccmon-gnome was written by Martin Pool.
 +.PP
 +This manual page was written by Mohammed Adnène Trojette for the Debian project (but may be used by others).
---- distcc-2.18.3.orig/source/Makefile.in
-+++ distcc-2.18.3/source/Makefile.in
-@@ -368,9 +368,9 @@
- default_files = $(default_dir)/distcc
- 
- man1_MEN = man/distcc.1 man/distccd.1 man/distccmon-text.1 \
--           man/pump.1 man/include_server.1
-+           man/pump.1 man/include_server.1 man/distccmon-gnome.1
- man_HTML = man/distcc_1.html man/distccd_1.html man/distccmon_text_1.html \
--	   man/pump_1.html man/include_server_1.html
-+	   man/pump_1.html man/include_server_1.html man/distccmon-gnome_1.html
- MEN = $(man1_MEN)
- 
- gnome_data = gnome/distccmon-gnome-icon.png	\

@@ -14,7 +14,7 @@ clients about what files to include in C/C++ compilations. The include_server.py
 command itself terminates as soon as the include server has been spawned.
 .PP
 The INCLUDE_SERVER_PORT argument is the name of a socket used for all
-communication between distcc clients and the include server.  The \fBpump\fR(1)
+communication between distcc clients and the include server.  The \fBdistcc-pump\fR(1)
 command is responsible for creating the socket location, for passing it to this
 script, and for passing it to all distcc clients via the environment variable
 named INCLUDE_SERVER_PORT. 
@@ -71,7 +71,7 @@ all.  Note: warnings must be enabled with at least -d1.
 .TP
 .B --pid_file FILEPATH
 The pid of the include server is written to file FILEPATH. This allows a script
-such a \fBpump\fR to tear down the include server.
+such a \fBdistcc-pump\fR to tear down the include server.
 .TP                             
 .B -s, --statistics
 Print information to stdout about include analysis.
@@ -81,7 +81,7 @@ Flush stat caches when the timestamp of any filepath in LIST changes or the
 filepath comes in or out of existence.  LIST is a colon separated string of
 filepaths, possibly containing simple globs (as allowed by Python's glob
 module). Print a warning whenever such a change happens (if warnings are
-enabled). This option allows limited exceptions to distcc_pump's normal
+enabled). This option allows limited exceptions to distcc-pump's normal
 assumption that source files are not modified during the build.
 .TP
 .B -t, --time  
@@ -147,7 +147,7 @@ client.  The include server gives up analyzing the include closure. The distcc
 client cannot use pump-mode.
 
 To overcome this problem in a not always reliable way, set the environment
-variable INCLUDE_SERVER_ARGS='--unsafe_absolute_includes' when invoking the pump
+variable INCLUDE_SERVER_ARGS='--unsafe_absolute_includes' when invoking the distcc-pump
 script to pass the --unsafe_absolute_includes option to the include server.
 .TP
 .B Warning: Absolute filepath ... was IGNORED
@@ -185,7 +185,7 @@ by the demotion message:
 .B See the Distcc Discrepancy Symptoms section in the include_server(1) man 
 .B page.
 
-The pump script issues this message at the end of the build. This means that for
+The distcc-pump script issues this message at the end of the build. This means that for
 at least one distcc invocation a local compilation succeeded after the remote
 compilation failed. Each distcc invocation for which such a discrepancy occurred
 in turn also issues a message such as:

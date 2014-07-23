@@ -56,7 +56,7 @@ In the include_server directory:
   ./run.py `which pychecker` include_server.py  
 
 In installed distcc-pump:
-   # See 'pump' script.
+   # See 'distcc-pump' script.
    $include_server_location/run.py --run_in_install include_server.py .. 
 """
 

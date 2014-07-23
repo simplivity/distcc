@@ -13,3 +13,4 @@
 0013-r678_distcc-v6-acl-2.patch
 0014-r732_distccmon-gnome-client-list.patch
 0015-svt01-disable-tcp-corking-over-ssh.patch
+0016-SVT-REL-319-Fix-distccd-wrapper-to-pass-command-line.patch

@@ -1,0 +1,28 @@
+From: Kevin Pease <kevin.pease@simplivity.com>
+Date: Wed, 23 Jul 2014 18:12:26 -0400
+Subject: SVT-REL-319-Fix-distccd-wrapper-to-pass-command-line-arguments
+
+==============================================================================
+
+Resolves REL-319:
+    In order to prevent DistCC from spewing errors related to TCP Corking
+    whenever we connected over SSH, we had to wrap the distccd binary. The
+    wrapper script wasn't passing command line arguments through to distccd,
+    but this patch fixes that.
+---
+ source/Makefile.in |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/source/Makefile.in b/source/Makefile.in
+index 371f8b8..d0af15f 100644
+--- a/source/Makefile.in
++++ b/source/Makefile.in
+@@ -497,7 +497,7 @@ distccd@EXEEXT@: $@
+ 	@ echo "Constructing wrapper script to disable attempts to cork TCP connections over SSH."
+ 	@ echo '#!/bin/bash' > distccd
+ 	@ echo 'export DISTCC_TCP_CORK=0' >> distccd
+-	@ echo 'exec /usr/bin/distccd-bin $@' >> distccd
++	@ echo 'exec /usr/bin/distccd-bin $$@' >> distccd
+ 
+ distccd-bin@EXEEXT@: $(distccd_obj)
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(distccd_obj) $(LIBS)	
